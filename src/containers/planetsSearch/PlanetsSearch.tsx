@@ -1,101 +1,137 @@
-import { ChangeEvent, Component } from 'react';
-import SearchField from '../../components/searchField/SearchField';
-import SearchButton from '../../components/searchButton/SearchButton';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
+import { FC, useState, SyntheticEvent, useEffect } from 'react';
 import Results from '../../components/results/Results';
 import ResultsList from '../../components/resultsList/ResultsList';
 import { PlanetCharacteristics } from '../../common/types/types';
 import { getBaseUrl, normalizeData } from '../../common/utils/utils';
 import classes from './PlanetsSearch.module.scss';
 import CreateErrorButton from '../../components/createErrorButton/CreateErrorButton';
+import Pagination from '../../components/pagination/Pagination';
+import { PageContext } from '../../contexts/pageContext';
+import SearchForm from '../../components/searchForm/SearchForm';
+import Spinner from '../../common/spinner/Spinner';
 
-interface PlanetsSearchState {
+export interface PlanetsSearchState {
   searchValue: string;
   results: PlanetCharacteristics[];
   isLoading: boolean;
   requestError: string;
 }
 
-export default class PlanetsSearch extends Component {
-  initialInputValue = localStorage.getItem('searchValue') || '';
+const PlanetsSearch: FC = () => {
+  const initialInputValue = localStorage.getItem('searchValue') || '';
 
-  state: PlanetsSearchState = {
-    searchValue: this.initialInputValue,
+  const [pageNumber, setPageNumber] = useState(1);
+  const [thereIsNext, setThereIsNext] = useState<boolean>(true);
+
+  const [state, setState] = useState<PlanetsSearchState>({
+    searchValue: initialInputValue,
     results: [],
-    isLoading: false,
+    isLoading: true,
     requestError: '',
+  });
+
+  const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const searchValue = formData.get('input') as string;
+    if (searchValue.length === 0) {
+      localStorage.removeItem('searchValue');
+    }
+    setPageNumber(1);
+    setThereIsNext(true);
+    setState((prev) => ({ ...prev, searchValue }));
+    localStorage.setItem('searchValue', searchValue);
   };
 
-  handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchValue: event.target.value });
-  };
-  handelClick = () => {
-    localStorage.setItem('searchValue', this.state.searchValue);
-    const url = `${getBaseUrl()}/?search=${this.state.searchValue}`;
-    this.fetchData(url);
-  };
-
-  fetchData = async (url: string) => {
-    this.setState({ requestError: '', isLoading: true });
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
+  useEffect(() => {
+    const fetchData = async (url: string) => {
+      setState((prev) => ({ ...prev, requestError: '', isLoading: true }));
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        const result = await response.json();
+        if (result.results.length === 0) {
+          localStorage.removeItem('searchValue');
+        }
+        const normalizedData: PlanetCharacteristics[] = normalizeData(
+          result.results
+        );
+        if (!result.next && thereIsNext) {
+          setThereIsNext(!thereIsNext);
+        }
+        if (result.next && !thereIsNext) {
+          setThereIsNext(!thereIsNext);
+        }
+        setState((prev) => ({
+          ...prev,
+          results: normalizedData,
+          isLoading: false,
+        }));
+      } catch (error: unknown) {
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          requestError:
+            error instanceof Error ? error.message : 'Unknown error',
+        }));
+        console.error(error);
       }
-      const result = await response.json();
-      const normalizedData: PlanetCharacteristics[] = normalizeData(
-        result.results
-      );
-      this.setState({ results: normalizedData, isLoading: false });
-    } catch (error: unknown) {
-      this.setState({
-        isLoading: false,
-        requestError:
-          error instanceof Error ? error.message : 'Неизвестная ошибка',
-      });
-      console.error(error);
-    }
-  };
-
-  componentDidMount() {
+    };
     const prevQuery = localStorage.getItem('searchValue');
-    if (prevQuery) {
-      const url = `${getBaseUrl()}/?search=${prevQuery}`;
-      this.fetchData(url);
+    if (prevQuery && prevQuery.length) {
+      const url = `${getBaseUrl()}/?search=${prevQuery}&page=${pageNumber}`;
+      fetchData(url);
     } else {
-      const url = `${getBaseUrl()}/?page=1`;
-      this.fetchData(url);
+      const url = `${getBaseUrl()}/?page=${pageNumber}`;
+      fetchData(url);
     }
-  }
+  }, [pageNumber, state.searchValue]);
 
-  render() {
-    return (
+  return (
+    <>
       <>
         <div className={classes.SearchSection}>
-          <SearchField
-            onInputChange={this.handleChange}
-            searchValue={this.state.searchValue}
-          />
-          <SearchButton onButtonClick={this.handelClick} />
+          <SearchForm handleSubmit={handleSubmit} />
           <CreateErrorButton />
         </div>
-
-        {this.state.requestError.length && (
-          <div className={classes.errorMessage}>{this.state.requestError}</div>
+        <Results />
+        {state.requestError.length && (
+          <div className={classes.errorMessage}>{state.requestError}</div>
         )}
 
-        {this.state.isLoading && (
-          <div className={classes.loadingMessage}>Loading...</div>
-        )}
-
-        {!this.state.isLoading &&
-          !this.state.requestError &&
-          this.state.results.length > 0 && (
-            <>
-              <Results />
-              <ResultsList planets={this.state.results} />
-            </>
+        {state.isLoading ? (
+          <Spinner />
+          // <div className={classes.loading}>Loading...</div>
+        ) : null}
+        {!state.isLoading &&
+          !state.requestError &&
+          state.results.length < 1 && (
+            <div className={classes.loading}>Nothing found</div>
           )}
       </>
-    );
-  }
-}
+      {!state.isLoading && !state.requestError && state.results.length > 0 && (
+        <>
+          <PageContext.Provider
+            value={{
+              pageNumber,
+              setPageNumber,
+              thereIsNext,
+            }}
+          >
+            <Pagination />
+            {/* {state.results.length ? <Pagination /> : null} */}
+          </PageContext.Provider>
+          {!state.isLoading &&
+            !state.requestError &&
+            state.results.length > 0 && <ResultsList planets={state.results} />}
+        </>
+      )}
+    </>
+  );
+};
+
+export default PlanetsSearch;

@@ -1,9 +1,10 @@
 .SearchSection {
   width: 80%;
-  padding: 10px 0;
+  padding: 10px 50px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
   border-radius: 5px;
   background-color: burlywood;
 }
@@ -11,11 +12,12 @@
   padding: 30px;
   font-size: 24px;
   font-weight: bold;
-  color: #fff;  
+  color: #fff;
 }
 .loading {
   padding: 30px;
   font-size: 24px;
   font-weight: bold;
-  color: #fff;  
+  color: #fff;
+  background-color: aqua;
 }
