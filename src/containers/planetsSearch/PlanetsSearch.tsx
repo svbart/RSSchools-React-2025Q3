@@ -9,7 +9,7 @@ import Pagination from '../../components/pagination/Pagination';
 import { PageContext } from '../../contexts/pageContext';
 import SearchForm from '../../components/searchForm/SearchForm';
 import Spinner from '../../common/spinner/Spinner';
-import { Outlet } from 'react-router';
+import { Outlet, useSearchParams } from 'react-router';
 
 export interface PlanetsSearchState {
   searchValue: string;
@@ -19,17 +19,18 @@ export interface PlanetsSearchState {
 }
 
 const PlanetsSearch: FC = () => {
-  const initialInputValue = localStorage.getItem('searchValue') || '';
-  // const { search } = useParams();
-  // console.log('useParams', useParams());
+  const savedSearch = localStorage.getItem('searchValue') || '';
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [pageNumber, setPageNumber] = useState(1);
+  const initialSearchValue = searchParams.get('search') || savedSearch;
+  const [pageNumber, setPageNumber] = useState(
+    Number(searchParams.get('page')) || 1
+  );
   const [thereIsNext, setThereIsNext] = useState<boolean>(true);
   const [selectedPlanetId, setSelectedPlanetId] = useState<number | null>(null);
-  console.log('selectedPlanetId', selectedPlanetId);
 
   const [state, setState] = useState<PlanetsSearchState>({
-    searchValue: initialInputValue,
+    searchValue: initialSearchValue,
     results: [],
     isLoading: true,
     requestError: '',
@@ -40,13 +41,16 @@ const PlanetsSearch: FC = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const searchValue = formData.get('input') as string;
-    if (searchValue.length === 0) {
+
+    setPageNumber(1);
+    setSearchParams({ search: searchValue, page: '1' });
+    setState((prev) => ({ ...prev, searchValue }));
+
+    if (searchValue) {
+      localStorage.setItem('searchValue', searchValue);
+    } else {
       localStorage.removeItem('searchValue');
     }
-    setPageNumber(1);
-    setThereIsNext(true);
-    setState((prev) => ({ ...prev, searchValue }));
-    localStorage.setItem('searchValue', searchValue);
   };
 
   useEffect(() => {
@@ -80,9 +84,8 @@ const PlanetsSearch: FC = () => {
         console.error(error);
       }
     };
-    const prevQuery = localStorage.getItem('searchValue');
-    if (prevQuery && prevQuery.length) {
-      const url = `${getBaseUrl()}/?search=${prevQuery}&page=${pageNumber}`;
+    if (state.searchValue) {
+      const url = `${getBaseUrl()}/?search=${state.searchValue}&page=${pageNumber}`;
       fetchData(url);
     } else {
       const url = `${getBaseUrl()}/?page=${pageNumber}`;
@@ -90,18 +93,22 @@ const PlanetsSearch: FC = () => {
     }
   }, [pageNumber, state.searchValue]);
 
-  useEffect(() => {});
-
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setSelectedPlanetId(null);
-        console.log('click outside', event.target);
+        const lastSearch = localStorage.getItem('searchValue') || '';
+        const currentPage = pageNumber.toString();
+        setSearchParams(
+          lastSearch
+            ? { search: lastSearch, page: currentPage }
+            : { page: currentPage }
+        );
       }
-    }
+    };
     window.addEventListener('click', handleClickOutside, true);
     return () => window.removeEventListener('click', handleClickOutside);
-  }, []);
+  }, [setSearchParams, setSelectedPlanetId, pageNumber]);
 
   return (
     <>

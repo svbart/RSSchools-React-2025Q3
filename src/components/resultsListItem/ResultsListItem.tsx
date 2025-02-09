@@ -13,9 +13,7 @@ const ResultsListItem: FC<ResultsListProps> = ({
   planet,
   setSelectedPlanetId,
 }) => {
-  // const navigate = useNavigate();
   const handleClick = (_event: SyntheticEvent) => {
-    // preventDefault();
     const id = getIdFromUrl(planet.url);
     setSelectedPlanetId(Number(id));
   };

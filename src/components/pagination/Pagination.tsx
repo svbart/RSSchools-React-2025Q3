@@ -1,21 +1,28 @@
 import { FC, SyntheticEvent, useContext } from 'react';
 import classes from './Pagination.module.scss';
+import { useSearchParams } from 'react-router';
 import { PageContext, IPageContext } from '../../contexts/pageContext';
 
 const Pagination: FC = () => {
   const context: IPageContext | null = useContext(PageContext);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     if (!context) {
       return;
     }
     const target = event.target as HTMLButtonElement;
-    if (target.textContent === 'Previous') {
-      context.setPageNumber((prev) => prev - 1);
-    }
-    if (target.textContent === 'Next') {
-      context.setPageNumber((prev) => prev + 1);
-    }
+    let newPage = context.pageNumber;
+    if (target.textContent === 'Previous') newPage = context.pageNumber - 1;
+    if (target.textContent === 'Next') newPage = context.pageNumber + 1;
+
+    context.setPageNumber(newPage);
+    const searchValue = searchParams.get('search') || '';
+    setSearchParams(
+      searchValue
+        ? { search: searchValue, page: newPage.toString() }
+        : { page: newPage.toString() }
+    );
   };
 
   return (
