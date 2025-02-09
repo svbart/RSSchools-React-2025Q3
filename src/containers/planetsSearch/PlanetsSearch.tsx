@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
 import { FC, useState, SyntheticEvent, useEffect, useRef } from 'react';
 import Results from '../../components/results/Results';
 import ResultsList from '../../components/resultsList/ResultsList';
@@ -11,7 +9,7 @@ import Pagination from '../../components/pagination/Pagination';
 import { PageContext } from '../../contexts/pageContext';
 import SearchForm from '../../components/searchForm/SearchForm';
 import Spinner from '../../common/spinner/Spinner';
-import { Outlet, useParams } from 'react-router';
+import { Outlet } from 'react-router';
 
 export interface PlanetsSearchState {
   searchValue: string;
@@ -23,7 +21,7 @@ export interface PlanetsSearchState {
 const PlanetsSearch: FC = () => {
   const initialInputValue = localStorage.getItem('searchValue') || '';
   // const { search } = useParams();
-  console.log('useParams', useParams());
+  // console.log('useParams', useParams());
 
   const [pageNumber, setPageNumber] = useState(1);
   const [thereIsNext, setThereIsNext] = useState<boolean>(true);
@@ -66,12 +64,7 @@ const PlanetsSearch: FC = () => {
         const normalizedData: PlanetCharacteristics[] = normalizeData(
           result.results
         );
-        if (!result.next && thereIsNext) {
-          setThereIsNext(!thereIsNext);
-        }
-        if (result.next && !thereIsNext) {
-          setThereIsNext(!thereIsNext);
-        }
+        setThereIsNext(Boolean(result.next));
         setState((prev) => ({
           ...prev,
           results: normalizedData,

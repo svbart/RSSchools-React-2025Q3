@@ -6,7 +6,7 @@ import './index.css';
 import PlanetsSearchPage from './pages/searchPage/PlanetsSearchPage.tsx';
 // import PlanetsSearch from './containers/planetsSearch/PlanetsSearch.tsx';
 import ErrorBoundary from './hoc/errorBoundary/ErrorBoundary.tsx';
-import ItemDetailsCard from './components/itemDetailsCard/itemDetailsCard.tsx';
+import ItemDetailsCard from './components/itemDetailsCard/ItemDetailsCard.tsx';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
