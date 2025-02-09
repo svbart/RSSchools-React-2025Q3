@@ -5,4 +5,5 @@ export interface IPageContext {
   pageNumber: number;
   thereIsNext: boolean;
 }
+
 export const PageContext = createContext<IPageContext | null>(null);

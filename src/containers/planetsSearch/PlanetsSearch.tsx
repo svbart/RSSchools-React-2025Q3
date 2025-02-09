@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import { FC, useState, SyntheticEvent, useEffect } from 'react';
+import { FC, useState, SyntheticEvent, useEffect, useRef } from 'react';
 import Results from '../../components/results/Results';
 import ResultsList from '../../components/resultsList/ResultsList';
 import { PlanetCharacteristics } from '../../common/types/types';
@@ -11,6 +11,7 @@ import Pagination from '../../components/pagination/Pagination';
 import { PageContext } from '../../contexts/pageContext';
 import SearchForm from '../../components/searchForm/SearchForm';
 import Spinner from '../../common/spinner/Spinner';
+import { Outlet, useParams } from 'react-router';
 
 export interface PlanetsSearchState {
   searchValue: string;
@@ -21,9 +22,13 @@ export interface PlanetsSearchState {
 
 const PlanetsSearch: FC = () => {
   const initialInputValue = localStorage.getItem('searchValue') || '';
+  // const { search } = useParams();
+  console.log('useParams', useParams());
 
   const [pageNumber, setPageNumber] = useState(1);
   const [thereIsNext, setThereIsNext] = useState<boolean>(true);
+  const [selectedPlanetId, setSelectedPlanetId] = useState<number | null>(null);
+  console.log('selectedPlanetId', selectedPlanetId);
 
   const [state, setState] = useState<PlanetsSearchState>({
     searchValue: initialInputValue,
@@ -31,6 +36,7 @@ const PlanetsSearch: FC = () => {
     isLoading: true,
     requestError: '',
   });
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -91,28 +97,36 @@ const PlanetsSearch: FC = () => {
     }
   }, [pageNumber, state.searchValue]);
 
+  useEffect(() => {});
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setSelectedPlanetId(null);
+        console.log('click outside', event.target);
+      }
+    }
+    window.addEventListener('click', handleClickOutside, true);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
     <>
-      <>
-        <div className={classes.SearchSection}>
-          <SearchForm handleSubmit={handleSubmit} />
-          <CreateErrorButton />
-        </div>
-        <Results />
-        {state.requestError.length && (
-          <div className={classes.errorMessage}>{state.requestError}</div>
-        )}
+      {/* <> */}
+      <div className={classes.SearchSection}>
+        <SearchForm handleSubmit={handleSubmit} />
+        <CreateErrorButton />
+      </div>
+      <Results />
+      {state.requestError.length && (
+        <div className={classes.errorMessage}>{state.requestError}</div>
+      )}
 
-        {state.isLoading ? (
-          <Spinner />
-          // <div className={classes.loading}>Loading...</div>
-        ) : null}
-        {!state.isLoading &&
-          !state.requestError &&
-          state.results.length < 1 && (
-            <div className={classes.loading}>Nothing found</div>
-          )}
-      </>
+      {state.isLoading ? <Spinner /> : null}
+      {!state.isLoading && !state.requestError && state.results.length < 1 && (
+        <div className={classes.loading}>Nothing found</div>
+      )}
+
       {!state.isLoading && !state.requestError && state.results.length > 0 && (
         <>
           <PageContext.Provider
@@ -123,11 +137,24 @@ const PlanetsSearch: FC = () => {
             }}
           >
             <Pagination />
-            {/* {state.results.length ? <Pagination /> : null} */}
           </PageContext.Provider>
-          {!state.isLoading &&
-            !state.requestError &&
-            state.results.length > 0 && <ResultsList planets={state.results} />}
+
+          <div className={classes.resultsSection}>
+            <div
+              style={selectedPlanetId ? { width: '60%' } : { width: '100%' }}
+            >
+              <ResultsList
+                planets={state.results}
+                setSelectedPlanetId={setSelectedPlanetId}
+              />
+            </div>
+
+            {selectedPlanetId && (
+              <div id="details" ref={ref} className={classes.details}>
+                <Outlet />
+              </div>
+            )}
+          </div>
         </>
       )}
     </>

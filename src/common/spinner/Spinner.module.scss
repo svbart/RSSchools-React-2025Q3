@@ -1,8 +1,9 @@
 
 .spinner {
-    width: 80px;
-    height: 80px;
-    border: 20px solid rgba(235, 169, 125, 0.3);
+    width: 40px;
+    height: 40px;
+    // border: 10px solid rgba(235, 169, 125, 0.3);
+    border: 10px solid rgba(236, 90, 23, 0.3);
     border-top-color: rgb(248, 88, 13);
     border-radius: 50%;
     animation: spin 1s linear infinite;

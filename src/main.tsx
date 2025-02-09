@@ -1,11 +1,29 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import './index.css';
-import App from './App.tsx';
+// import App from './App.tsx';
+import PlanetsSearchPage from './pages/searchPage/PlanetsSearchPage.tsx';
+// import PlanetsSearch from './containers/planetsSearch/PlanetsSearch.tsx';
+import ErrorBoundary from './hoc/errorBoundary/ErrorBoundary.tsx';
+import ItemDetailsCard from './components/itemDetailsCard/itemDetailsCard.tsx';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <BrowserRouter>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<PlanetsSearchPage />}>
+            {/* <Route path="planets/?page=:page" element={<PlanetsSearch />} /> */}
+            <Route
+              path="planet/:id"
+              element={<ItemDetailsCard key={location.pathname} />}
+            />
+          </Route>
+          <Route path="*" element={<PlanetsSearchPage />} />
+        </Routes>
+      </ErrorBoundary>
+    </BrowserRouter>
   </StrictMode>
 );

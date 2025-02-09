@@ -4,7 +4,6 @@ import { PageContext, IPageContext } from '../../contexts/pageContext';
 
 const Pagination: FC = () => {
   const context: IPageContext | null = useContext(PageContext);
-  console.log('context', context);
 
   const handleButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     if (!context) {
