@@ -19,7 +19,7 @@ const ResultsListItem: FC<ResultsListProps> = ({
   };
 
   return (
-    <Link to={`/planet/${getIdFromUrl(planet.url)}`} onClick={handleClick}>
+    <Link to={`/planets/${getIdFromUrl(planet.url)}`} onClick={handleClick}>
       <div className={classes.ResultsListItem}>
         <div className={classes.item}>
           <div className={classes.col1}>{planet.name}</div>

@@ -112,7 +112,6 @@ const PlanetsSearch: FC = () => {
 
   return (
     <>
-      {/* <> */}
       <div className={classes.SearchSection}>
         <SearchForm handleSubmit={handleSubmit} />
         <CreateErrorButton />

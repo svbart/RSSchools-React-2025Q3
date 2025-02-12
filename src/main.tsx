@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<PlanetsSearchPage />}>
             <Route
-              path="planet/:id"
+              path="planets/:id"
               element={<ItemDetailsCard key={location.pathname} />}
             />
           </Route>

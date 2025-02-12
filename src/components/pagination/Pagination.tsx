@@ -18,6 +18,7 @@ const Pagination: FC = () => {
 
     context.setPageNumber(newPage);
     const searchValue = searchParams.get('search') || '';
+
     setSearchParams(
       searchValue
         ? { search: searchValue, page: newPage.toString() }
