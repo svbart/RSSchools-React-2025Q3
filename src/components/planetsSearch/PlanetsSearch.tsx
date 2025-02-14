@@ -1,13 +1,13 @@
 import { FC, useState, SyntheticEvent, useEffect, useRef } from 'react';
-import Results from '../../components/results/Results';
-import ResultsList from '../../components/resultsList/ResultsList';
+import Results from '../results/Results';
+import ResultsList from '../resultsList/ResultsList';
 import { PlanetCharacteristics } from '../../common/types/types';
 import { getBaseUrl, normalizeData } from '../../common/utils/utils';
 import classes from './PlanetsSearch.module.scss';
-import CreateErrorButton from '../../components/createErrorButton/CreateErrorButton';
-import Pagination from '../../components/pagination/Pagination';
+import CreateErrorButton from '../createErrorButton/CreateErrorButton';
+import Pagination from '../pagination/Pagination';
 import { PageContext } from '../../contexts/pageContext';
-import SearchForm from '../../components/searchForm/SearchForm';
+import SearchForm from '../searchForm/SearchForm';
 import Spinner from '../../common/spinner/Spinner';
 import { Outlet, useSearchParams } from 'react-router';
 
@@ -140,7 +140,7 @@ const PlanetsSearch: FC = () => {
 
           <div className={classes.resultsSection}>
             <div
-              style={selectedPlanetId ? { width: '60%' } : { width: '100%' }}
+              style={selectedPlanetId ? { width: '70%' } : { width: '100%' }}
             >
               <ResultsList
                 planets={state.results}

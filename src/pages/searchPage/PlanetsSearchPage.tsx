@@ -1,4 +1,4 @@
-import PlanetsSearch from '../../containers/planetsSearch/PlanetsSearch';
+import PlanetsSearch from '../../components/planetsSearch/PlanetsSearch';
 import Layout from '../../hoc/layout/Layout';
 import classes from './PlanetsSearchPage.module.scss';
 

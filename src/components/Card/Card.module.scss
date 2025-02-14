@@ -1,0 +1,136 @@
+// .card {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   justify-content: space-between;
+// }
+
+// .item {
+//   width: 100%;
+//   box-sizing: border-box;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 5px;
+//   border-radius: 5px;
+//   background-color: burlywood;
+//   border: 5px solid chocolate;
+// }
+
+// .col1 {
+//   width: 30%;
+//   min-height: 160px;
+//   vertical-align: middle;
+//   text-align: center;
+//   font-size: 24px;
+//   font-weight: bold;
+//   line-height: 100px;
+//   color: beige;
+//   border-radius: 2px;
+//   background-image: url('../../assets/images/space1.webp');
+//   background-size: cover;
+// }
+
+// .col2 {
+//   width: 70%;
+//   text-align: center;
+//   font-size: 16px;
+//   font-weight: bold;
+//   border-radius: 5px;
+// }
+// .row {
+//   width: 100%;
+//   display: flex;
+//   justify-content: flex-start;
+//   background-color: burlywood;
+// }
+// .rowCol1 {
+//   width: 40%;
+//   text-align: center;
+//   box-sizing: border-box;
+//   border-radius: 3px;
+//   border-bottom: 1px dashed burlywood;
+//   font-weight: bold;
+//   background-color: chocolate;
+// }
+// .rowCol2 {
+//   width: 70%;
+//   box-sizing: border-box;
+//   text-align: center;
+//   border-bottom: 1px dashed chocolate;
+//   font-weight: bold;
+// }
+// ***
+// 
+.cardLink {
+  // Стили для Link
+  text-decoration: none; // Убираем подчеркивание у ссылки
+  display: block; // Делаем ссылку блочным элементом для удобства позиционирования
+  width: calc(33.33% - 10px); // Ширина карточки (3 в ряд с небольшим отступом)
+  // margin: 10px; // Отступ между карточками
+  margin-bottom: 10px;
+  box-sizing: border-box; // Включаем box-sizing для корректного расчета ширины с учетом padding и border
+     border: 5px solid chocolate; // Параметры рамки
+  background-color: burlywood;
+
+  &:nth-child(3n+1) {
+    // Убираем левый отступ у первой карточки в ряду
+    margin-left: 0;
+  }
+
+  &:nth-child(3n) {
+    // Убираем правый отступ у третьей карточки в ряду
+    margin-right: 0;
+  }
+}
+
+.cardVertical {
+  border-radius: 5px;
+  overflow: hidden; // Обрезаем содержимое, выходящее за границы
+  display: flex;
+  flex-direction: column; // Вертикальное расположение элементов
+  height: 100%; // или auto, если высота содержимого может сильно меняться
+}
+
+.cardContent {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; // Позволяем контенту занимать доступное пространство
+}
+.planetNameSelect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.planetName {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.planetDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailRow {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.detailLabel {
+  font-weight: bold;
+  width: 120px; // Фиксированная ширина для label
+}
+
+.detailValue {
+  flex-grow: 1; // Значение занимает оставшееся пространство
+}
+.checkbox {
+  width: 20px;
+  height: 20px;
+}               

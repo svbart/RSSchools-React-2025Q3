@@ -1,5 +1,6 @@
 .details {
-  width: 38%;
+  // width: 30%;
+padding: 10px;
   background-color: burlywood;
   border-radius: 5px;
 }
@@ -23,4 +24,16 @@
   border-radius: 5px;
   background-color: chocolate;
   font-size: 22px;
+  font-weight: bold;
+}
+.detailsContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  // align-items: center;
+  padding: 10px;
+  // box-sizing: border-box;
+  border-radius: 5px;
+  background-color: burlywood;
 }

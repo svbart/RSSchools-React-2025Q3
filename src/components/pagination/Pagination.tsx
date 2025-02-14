@@ -1,9 +1,9 @@
-import { FC, SyntheticEvent, useContext } from 'react';
+import { SyntheticEvent, useContext } from 'react';
 import classes from './Pagination.module.scss';
 import { useSearchParams } from 'react-router';
 import { PageContext, IPageContext } from '../../contexts/pageContext';
 
-const Pagination: FC = () => {
+const Pagination = () => {
   const context: IPageContext | null = useContext(PageContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
