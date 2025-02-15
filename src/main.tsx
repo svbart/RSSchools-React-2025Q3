@@ -5,21 +5,25 @@ import './index.css';
 import PlanetsSearchPage from './pages/searchPage/PlanetsSearchPage.tsx';
 import ErrorBoundary from './hoc/errorBoundary/ErrorBoundary.tsx';
 import ItemDetailsCard from './components/itemDetailsCard/ItemDetailsCard.tsx';
+import { Provider } from 'react-redux';
+import { store } from './store/store.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ErrorBoundary>
-        <Routes>
-          <Route path="/" element={<PlanetsSearchPage />}>
-            <Route
-              path="planets/:id"
-              element={<ItemDetailsCard key={location.pathname} />}
-            />
-          </Route>
-          <Route path="*" element={<PlanetsSearchPage />} />
-        </Routes>
+        <Provider store={store}>
+          <Routes>
+            <Route path="/" element={<PlanetsSearchPage />}>
+              <Route
+                path="planets/:id"
+                element={<ItemDetailsCard key={location.pathname} />}
+              />
+            </Route>
+            <Route path="*" element={<PlanetsSearchPage />} />
+          </Routes>
+        </Provider>
       </ErrorBoundary>
     </BrowserRouter>
   </StrictMode>

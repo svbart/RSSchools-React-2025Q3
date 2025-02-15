@@ -14,10 +14,6 @@ const ResultsList: FC<ResultsListProps> = ({
 }) => {
   return (
     <div className={classes.ResultsList}>
-      {/* <div className={classes.header}>
-        <div className={classes.col1}>Planet Name</div>
-        <div className={classes.col2}>Planet Characteristics</div>
-      </div> */}
       {planets.length ? (
         planets.map((planet, index) => {
           return (

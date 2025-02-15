@@ -1,62 +1,10 @@
-// import { FC, SyntheticEvent } from 'react';
-// import classes from './Card.module.scss';
-// import { PlanetCharacteristics } from '../../common/types/types';
-// import { getIdFromUrl } from '../../common/utils/utils';
-// import { Link } from 'react-router';
-
-// interface ICardProps {
-//   planet: PlanetCharacteristics;
-//   setSelectedPlanetId: React.Dispatch<React.SetStateAction<number | null>>;
-// }
-
-// const Card: FC<ICardProps> = ({ planet, setSelectedPlanetId }) => {
-//   const handleClick = (_event: SyntheticEvent) => {
-//     const id = getIdFromUrl(planet.url);
-//     setSelectedPlanetId(Number(id));
-//   };
-
-//   return (
-//     <Link to={`/planets/${getIdFromUrl(planet.url)}`} onClick={handleClick}>
-//       <div className={classes.card}>
-//         <div className={classes.item}>
-//           <div className={classes.col1}>{planet.name}</div>
-//           <div className={classes.col2}>
-//             <div className={classes.row}>
-//               <div className={classes.rowCol1}>Rotation period</div>
-//               <div className={classes.rowCol2}>{planet.rotationPeriod}</div>
-//             </div>
-//             <div className={classes.row}>
-//               <div className={classes.rowCol1}>Orbital period</div>
-//               <div className={classes.rowCol2}>{planet.orbitalPeriod}</div>
-//             </div>
-//             <div className={classes.row}>
-//               <div className={classes.rowCol1}>Diameter</div>
-//               <div className={classes.rowCol2}>{planet.diameter}</div>
-//             </div>
-//             <div className={classes.row}>
-//               <div className={classes.rowCol1}>Climate</div>
-//               <div className={classes.rowCol2}>{planet.climate}</div>
-//             </div>
-//             <div className={classes.row}>
-//               <div className={classes.rowCol1}>Gravity</div>
-//               <div className={classes.rowCol2}>{planet.gravity}</div>
-//             </div>
-//             <div className={classes.row}>
-//               <div className={classes.rowCol1}>Surface water</div>
-//               <div className={classes.rowCol2}>{planet.surfaceWater}</div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </Link>
-//   );
-// };
-// export default Card;
 import { FC, SyntheticEvent } from 'react';
 import classes from './Card.module.scss';
 import { PlanetCharacteristics } from '../../common/types/types';
 import { getIdFromUrl } from '../../common/utils/utils';
-import { Link } from 'react-router'; // Импортируем Link из react-router-dom
+import { Link } from 'react-router';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { updateSelectedItems } from '../../store/storeSlices/app-reducer';
 
 interface ICardProps {
   planet: PlanetCharacteristics;
@@ -64,34 +12,37 @@ interface ICardProps {
 }
 
 const Card: FC<ICardProps> = ({ planet, setSelectedPlanetId }) => {
-  const handleClick = (_event: SyntheticEvent) => {
+  const dispatch = useAppDispatch();
+  const { selectedItems } = useAppSelector((state) => state.app);
+  const isSelected = selectedItems.some((item) => item.url === planet.url);
+
+  const handleCardClick = (_event: SyntheticEvent) => {
     const id = getIdFromUrl(planet.url);
     setSelectedPlanetId(Number(id));
+  };
+
+  const handleCheckboxChange = (_event: SyntheticEvent) => {
+    dispatch(updateSelectedItems(planet));
   };
 
   return (
     <Link
       to={`/planets/${getIdFromUrl(planet.url)}`}
-      onClick={handleClick}
+      onClick={handleCardClick}
       className={classes.cardLink}
     >
-      {' '}
-      {/* Добавляем класс cardLink для Link */}
       <div className={classes.cardVertical}>
-        {' '}
-        {/* Изменяем класс на cardVertical */}
         <div className={classes.cardContent}>
-          {' '}
-          {/* Оборачиваем контент в cardContent */}
           <div className={classes.planetNameSelect}>
             <div className={classes.planetName}>{planet.name}</div>{' '}
-            <input type="checkbox" className={classes.checkbox} />{' '}
-            {/* Класс для имени планеты */}
-            {/* Класс для имени планеты */}
+            <input
+              type="checkbox"
+              checked={isSelected}
+              onChange={handleCheckboxChange}
+              className={classes.checkbox}
+            />{' '}
           </div>
           <div className={classes.planetDetails}>
-            {' '}
-            {/* Класс для деталей */}
             <div className={classes.detailRow}>
               <span className={classes.detailLabel}>Rotation period:</span>
               <span className={classes.detailValue}>

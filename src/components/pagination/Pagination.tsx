@@ -6,7 +6,6 @@ import { PageContext, IPageContext } from '../../contexts/pageContext';
 const Pagination = () => {
   const context: IPageContext | null = useContext(PageContext);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const handleButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     if (!context) {
       return;
