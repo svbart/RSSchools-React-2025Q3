@@ -1,12 +1,13 @@
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { deleteAllSelectedItems } from '../../store/storeSlices/app-reducer';
 import { getNumberOfSelectedItems } from '../../common/utils/utils';
+import DownloadBtn from '../downloadSelectedItems/DownloadBtn';
 import classes from './Flyout.module.scss';
 
 const Flyout = () => {
   const { selectedItems } = useAppSelector((state) => state.app);
-
   const dispatch = useAppDispatch();
+
   const handleUnselectAll = () => {
     dispatch(deleteAllSelectedItems());
   };
@@ -15,12 +16,12 @@ const Flyout = () => {
     return (
       <div className={classes.flyout}>
         <p className={classes.flyoutText}>
-          {getNumberOfSelectedItems(selectedItems.length)}
+          {`${getNumberOfSelectedItems(selectedItems.length)} selected`}
         </p>
         <button onClick={handleUnselectAll} className={classes.flyoutBtn}>
           Unselect all
         </button>
-        <button className={classes.flyoutBtn}>Download</button>
+        <DownloadBtn />
       </div>
     );
 };

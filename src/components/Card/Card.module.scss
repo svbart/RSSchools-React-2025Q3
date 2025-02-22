@@ -1,15 +1,14 @@
 .cardLink {
-  text-decoration: none;
-  display: block; 
-  width: calc(33.33% - 10px);  
+  display: block;
+  width: calc(33.33% - 10px);
   // width: calc(25% - 10px);
   margin-bottom: 10px;
-  box-sizing: border-box; 
-  border: 5px solid chocolate; 
+  box-sizing: border-box;
+  border: 5px solid chocolate;
   border-radius: 5px;
-  background-color: burlywood;
+  cursor: pointer;
 
-  &:nth-child(3n+1) {
+  &:nth-child(3n + 1) {
     // Убираем левый отступ у первой карточки в ряду
     margin-left: 0;
   }
@@ -22,10 +21,10 @@
 
 .cardVertical {
   border-radius: 5px;
-  overflow: hidden; 
+  overflow: hidden;
   display: flex;
-  flex-direction: column; 
-  height: 100%; 
+  flex-direction: column;
+  height: 100%;
 }
 
 .cardContent {
@@ -60,7 +59,7 @@
 
 .detailLabel {
   font-weight: bold;
-  width: 120px; // Фиксированная ширина для label
+  width: 130px;
 }
 
 .detailValue {
@@ -69,4 +68,13 @@
 .checkbox {
   width: 20px;
   height: 20px;
-}               
+}
+
+.light {
+  background-color: #ffebcd;
+  border-color: #238df0;
+}
+
+.dark {
+  background-color: burlywood;
+}

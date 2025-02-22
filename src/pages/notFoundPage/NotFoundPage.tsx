@@ -1,8 +1,8 @@
-import { FC } from 'react';
 import { Link } from 'react-router';
 import Layout from '../../hoc/layout/Layout';
+import ThemeBtn from '../../components/themeBtn/ThemeBtn';
 
-const NotFoundPage: FC = () => {
+const NotFoundPage = () => {
   return (
     <Layout>
       <div
@@ -18,6 +18,7 @@ const NotFoundPage: FC = () => {
           backgroundColor: '#fff',
         }}
       >
+        <ThemeBtn />
         <h2 style={{ margin: '10px 0' }}>Page Not Found</h2>
         <p>
           {' '}

@@ -1,15 +1,21 @@
-// import { FC, useState, SyntheticEvent, useEffect, useRef } from 'react';
+// import { SyntheticEvent, useEffect, useRef } from 'react';
 // import Results from '../results/Results';
 // import ResultsList from '../resultsList/ResultsList';
 // import { PlanetCharacteristics } from '../../common/types/types';
-// import { getBaseUrl, normalizeData } from '../../common/utils/utils';
 // import classes from './PlanetsSearch.module.scss';
 // import CreateErrorButton from '../createErrorButton/CreateErrorButton';
 // import Pagination from '../pagination/Pagination';
-// import { PageContext } from '../../contexts/pageContext';
 // import SearchForm from '../searchForm/SearchForm';
 // import Spinner from '../../common/spinner/Spinner';
 // import { Outlet, useSearchParams } from 'react-router';
+// import { useGetPlanetsByPageQuery } from '../../services/planetsApi';
+// import { useAppDispatch, useAppSelector } from '../../store/hooks';
+// import {
+//   setCurrentPageData,
+//   setPageNumber,
+//   setSearchValue,
+// } from '../../store/storeSlices/app-reducer';
+// import { useTheme } from '../../contexts/ThemeContext';
 
 // export interface PlanetsSearchState {
 //   searchValue: string;
@@ -18,33 +24,32 @@
 //   requestError: string;
 // }
 
-// const PlanetsSearch: FC = () => {
-//   const savedSearch = localStorage.getItem('searchValue') || '';
+// const PlanetsSearch = () => {
 //   const [searchParams, setSearchParams] = useSearchParams();
-
-//   const initialSearchValue = searchParams.get('search') || savedSearch;
-//   const [pageNumber, setPageNumber] = useState(
-//     Number(searchParams.get('page')) || 1
-//   );
-//   const [thereIsNext, setThereIsNext] = useState<boolean>(true);
-//   const [selectedPlanetId, setSelectedPlanetId] = useState<number | null>(null);
-
-//   const [state, setState] = useState<PlanetsSearchState>({
-//     searchValue: initialSearchValue,
-//     results: [],
-//     isLoading: true,
-//     requestError: '',
+//   const { searchValue, pageNumber, itemToShowDetails, currentPageData } =
+//     useAppSelector((state) => state.app);
+//   const dispatch = useAppDispatch();
+//   const page = Number(searchParams.get('page'));
+//   const { data, error, isLoading } = useGetPlanetsByPageQuery({
+//     page,
+//     searchValue,
+//     itemToShowDetails,
 //   });
+
+//   console.log('data', data);
+//   const themeContext = useTheme();
+//   const darkMode = themeContext?.darkMode;
+//   const theme = darkMode ? classes.dark : classes.light;
+
 //   const ref = useRef<HTMLDivElement | null>(null);
 
 //   const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
 //     event.preventDefault();
 //     const formData = new FormData(event.currentTarget);
 //     const searchValue = formData.get('input') as string;
-
-//     setPageNumber(1);
+//     dispatch(setPageNumber(1));
 //     setSearchParams({ search: searchValue, page: '1' });
-//     setState((prev) => ({ ...prev, searchValue }));
+//     dispatch(setSearchValue(searchValue));
 
 //     if (searchValue) {
 //       localStorage.setItem('searchValue', searchValue);
@@ -52,63 +57,33 @@
 //       localStorage.removeItem('searchValue');
 //     }
 //   };
+//   useEffect(() => {
+//     const savedSearch = localStorage.getItem('searchValue') || '';
+//     const initialSearchValue = searchParams.get('search') || savedSearch;
+//     dispatch(setSearchValue(initialSearchValue));
+//   }, []);
 
 //   useEffect(() => {
-//     const fetchData = async (url: string) => {
-//       setState((prev) => ({ ...prev, requestError: '', isLoading: true }));
-//       try {
-//         const response = await fetch(url);
-//         if (!response.ok) {
-//           throw new Error(`Error ${response.status}: ${response.statusText}`);
-//         }
-//         const result = await response.json();
-//         if (result.results.length === 0) {
-//           localStorage.removeItem('searchValue');
-//         }
-//         const normalizedData: PlanetCharacteristics[] = normalizeData(
-//           result.results
-//         );
-//         setThereIsNext(Boolean(result.next));
-//         setState((prev) => ({
-//           ...prev,
-//           results: normalizedData,
-//           isLoading: false,
-//         }));
-//       } catch (error: unknown) {
-//         setState((prev) => ({
-//           ...prev,
-//           isLoading: false,
-//           requestError:
-//             error instanceof Error ? error.message : 'Unknown error',
-//         }));
-//         console.error(error);
-//       }
-//     };
-//     if (state.searchValue) {
-//       const url = `${getBaseUrl()}/?search=${state.searchValue}&page=${pageNumber}`;
-//       fetchData(url);
-//     } else {
-//       const url = `${getBaseUrl()}/?page=${pageNumber}`;
-//       fetchData(url);
+//     if (data && data.results) {
+//       dispatch(setCurrentPageData(data));
 //     }
-//   }, [pageNumber, state.searchValue]);
+//   }, [data, pageNumber, dispatch]);
 
 //   useEffect(() => {
-//     const handleClickOutside = (event: MouseEvent) => {
-//       if (ref.current && !ref.current.contains(event.target as Node)) {
-//         setSelectedPlanetId(null);
-//         const lastSearch = localStorage.getItem('searchValue') || '';
-//         const currentPage = pageNumber.toString();
-//         setSearchParams(
-//           lastSearch
-//             ? { search: lastSearch, page: currentPage }
-//             : { page: currentPage }
-//         );
-//       }
-//     };
-//     window.addEventListener('click', handleClickOutside, true);
-//     return () => window.removeEventListener('click', handleClickOutside);
-//   }, [setSearchParams, setSelectedPlanetId, pageNumber]);
+//     const pageFromUrl = Number(searchParams.get('page')) || 1;
+
+//     if (pageFromUrl !== pageNumber) {
+//       dispatch(setPageNumber(pageFromUrl));
+//     }
+
+//     // Если в URL нет page, добавляем его
+//     if (!searchParams.get('page')) {
+//       setSearchParams({
+//         ...Object.fromEntries(searchParams),
+//         page: pageFromUrl.toString(),
+//       });
+//     }
+//   }, [searchParams, dispatch, setSearchParams, pageNumber]);
 
 //   return (
 //     <>
@@ -117,103 +92,92 @@
 //         <CreateErrorButton />
 //       </div>
 //       <Results />
-//       {state.requestError.length && (
-//         <div className={classes.errorMessage}>{state.requestError}</div>
-//       )}
+//       {error && <div className={classes.errorMessage}>{String(error)}</div>}
 
-//       {state.isLoading ? <Spinner /> : null}
-//       {!state.isLoading && !state.requestError && state.results.length < 1 && (
-//         <div className={classes.loading}>Nothing found</div>
-//       )}
+//       {isLoading ? <Spinner /> : null}
+//       {!isLoading &&
+//         !error &&
+//         (!currentPageData?.results || currentPageData.results.length < 1) && (
+//           <div className={classes.loading}>Nothing found</div>
+//         )}
 
-//       {!state.isLoading && !state.requestError && state.results.length > 0 && (
-//         <>
-//           <PageContext.Provider
-//             value={{
-//               pageNumber,
-//               setPageNumber,
-//               thereIsNext,
-//             }}
-//           >
+//       {!isLoading &&
+//         !error &&
+//         currentPageData?.results &&
+//         currentPageData.results.length > 0 && (
+//           <>
 //             <Pagination />
-//           </PageContext.Provider>
-
-//           <div className={classes.resultsSection}>
-//             <div
-//               style={selectedPlanetId ? { width: '70%' } : { width: '100%' }}
-//             >
-//               <ResultsList
-//                 planets={state.results}
-//                 setSelectedPlanetId={setSelectedPlanetId}
-//               />
-//             </div>
-
-//             {selectedPlanetId && (
-//               <div id="details" ref={ref} className={classes.details}>
-//                 <Outlet />
+//             <div className={classes.resultsSection}>
+//               <div
+//                 style={itemToShowDetails ? { width: '70%' } : { width: '100%' }}
+//               >
+//                 <ResultsList />
 //               </div>
-//             )}
-//           </div>
-//         </>
-//       )}
+
+//               {itemToShowDetails && (
+//                 <div
+//                   id="details"
+//                   ref={ref}
+//                   className={`${classes.details} ${theme}`}
+//                 >
+//                   <Outlet />
+//                 </div>
+//               )}
+//             </div>
+//           </>
+//         )}
 //     </>
 //   );
 // };
 
 // export default PlanetsSearch;
-
-import { FC, useState, SyntheticEvent, useEffect, useRef } from 'react';
+import { SyntheticEvent, useEffect, useRef } from 'react';
 import Results from '../results/Results';
 import ResultsList from '../resultsList/ResultsList';
-import { PlanetCharacteristics } from '../../common/types/types';
-import { getBaseUrl, normalizeData } from '../../common/utils/utils';
+// import { PlanetCharacteristics } from '../../common/types/types';
 import classes from './PlanetsSearch.module.scss';
 import CreateErrorButton from '../createErrorButton/CreateErrorButton';
 import Pagination from '../pagination/Pagination';
-import { PageContext } from '../../contexts/pageContext';
 import SearchForm from '../searchForm/SearchForm';
 import Spinner from '../../common/spinner/Spinner';
 import { Outlet, useSearchParams } from 'react-router';
 import { useGetPlanetsByPageQuery } from '../../services/planetsApi';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {
+  setCurrentPageData,
+  setPageNumber,
+  setSearchValue,
+} from '../../store/storeSlices/app-reducer';
+import { useTheme } from '../../contexts/ThemeContext';
 
-export interface PlanetsSearchState {
-  searchValue: string;
-  results: PlanetCharacteristics[];
-  isLoading: boolean;
-  requestError: string;
-}
-
-const PlanetsSearch: FC = () => {
+const PlanetsSearch = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [pageNumber, setPageNumber] = useState(
-    Number(searchParams.get('page')) || 1
-  );
-  const { data, error, isLoading } = useGetPlanetsByPageQuery(pageNumber);
-  console.log('data', data);
-
-  const savedSearch = localStorage.getItem('searchValue') || '';
-  const initialSearchValue = searchParams.get('search') || savedSearch;
-
-  const [thereIsNext, setThereIsNext] = useState<boolean>(true);
-  const [selectedPlanetId, setSelectedPlanetId] = useState<number | null>(null);
-
-  const [state, setState] = useState<PlanetsSearchState>({
-    searchValue: initialSearchValue,
-    results: [],
-    isLoading: true,
-    requestError: '',
+  const { searchValue, pageNumber, itemToShowDetails, currentPageData } =
+    useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
+  const { data, error, isLoading } = useGetPlanetsByPageQuery({
+    pageNumber,
+    searchValue,
+    itemToShowDetails,
   });
+
+  const themeContext = useTheme();
+  const darkMode = themeContext?.darkMode;
+  const theme = darkMode ? classes.dark : classes.light;
+
   const ref = useRef<HTMLDivElement | null>(null);
 
+  // При сабмите формы обновляем параметры URL и state
   const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const searchValue = formData.get('input') as string;
 
-    setPageNumber(1);
-    setSearchParams({ search: searchValue, page: '1' });
-    setState((prev) => ({ ...prev, searchValue }));
+    dispatch(setPageNumber(1)); // Сброс страницы на 1
+    dispatch(setSearchValue(searchValue)); // Обновляем значение поиска
 
+    // Обновляем параметры в URL
+    setSearchParams({ search: searchValue, page: '1' });
     if (searchValue) {
       localStorage.setItem('searchValue', searchValue);
     } else {
@@ -221,62 +185,36 @@ const PlanetsSearch: FC = () => {
     }
   };
 
+  // При загрузке компонента, получаем сохраненный searchValue из localStorage или параметров URL
   useEffect(() => {
-    const fetchData = async (url: string) => {
-      setState((prev) => ({ ...prev, requestError: '', isLoading: true }));
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        const result = await response.json();
-        if (result.results.length === 0) {
-          localStorage.removeItem('searchValue');
-        }
-        const normalizedData: PlanetCharacteristics[] = normalizeData(
-          result.results
-        );
-        setThereIsNext(Boolean(result.next));
-        setState((prev) => ({
-          ...prev,
-          results: normalizedData,
-          isLoading: false,
-        }));
-      } catch (error: unknown) {
-        setState((prev) => ({
-          ...prev,
-          isLoading: false,
-          requestError:
-            error instanceof Error ? error.message : 'Unknown error',
-        }));
-        console.error(error);
-      }
-    };
-    if (state.searchValue) {
-      const url = `${getBaseUrl()}/?search=${state.searchValue}&page=${pageNumber}`;
-      fetchData(url);
-    } else {
-      const url = `${getBaseUrl()}/?page=${pageNumber}`;
-      fetchData(url);
-    }
-  }, [pageNumber, state.searchValue]);
+    const savedSearch = localStorage.getItem('searchValue') || '';
+    const initialSearchValue = searchParams.get('search') || savedSearch;
+    dispatch(setSearchValue(initialSearchValue));
+  }, [searchParams, dispatch]);
 
+  // Когда приходит новый результат от API, обновляем состояние с данными текущей страницы
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setSelectedPlanetId(null);
-        const lastSearch = localStorage.getItem('searchValue') || '';
-        const currentPage = pageNumber.toString();
-        setSearchParams(
-          lastSearch
-            ? { search: lastSearch, page: currentPage }
-            : { page: currentPage }
-        );
-      }
-    };
-    window.addEventListener('click', handleClickOutside, true);
-    return () => window.removeEventListener('click', handleClickOutside);
-  }, [setSearchParams, setSelectedPlanetId, pageNumber]);
+    if (data && data.results) {
+      dispatch(setCurrentPageData(data));
+    }
+  }, [data, dispatch]);
+
+  // Следим за параметрами page в URL и обновляем pageNumber в Redux
+  useEffect(() => {
+    const pageFromUrl = Number(searchParams.get('page')) || 1;
+
+    if (pageFromUrl !== pageNumber) {
+      dispatch(setPageNumber(pageFromUrl)); // Обновляем номер страницы в Redux
+    }
+
+    // Если нет параметра page, добавляем его в URL
+    if (!searchParams.get('page')) {
+      setSearchParams({
+        ...Object.fromEntries(searchParams),
+        page: pageFromUrl.toString(),
+      });
+    }
+  }, [searchParams, dispatch, setSearchParams, pageNumber]);
 
   return (
     <>
@@ -285,45 +223,40 @@ const PlanetsSearch: FC = () => {
         <CreateErrorButton />
       </div>
       <Results />
-      {error && (
-        <div className={classes.errorMessage}>{state.requestError}</div>
-      )}
+      {error && <div className={classes.errorMessage}>{String(error)}</div>}
 
       {isLoading ? <Spinner /> : null}
-      {!isLoading && !error && (!data || data.results.length < 1) && (
-        <div className={classes.loading}>Nothing found</div>
-      )}
+      {!isLoading &&
+        !error &&
+        (!currentPageData?.results || currentPageData.results.length < 1) && (
+          <div className={classes.loading}>Nothing found</div>
+        )}
 
-      {!isLoading && !error && data && data.results.length > 0 && (
-        <>
-          <PageContext.Provider
-            value={{
-              pageNumber,
-              setPageNumber,
-              thereIsNext,
-            }}
-          >
+      {!isLoading &&
+        !error &&
+        currentPageData?.results &&
+        currentPageData.results.length > 0 && (
+          <>
             <Pagination />
-          </PageContext.Provider>
-
-          <div className={classes.resultsSection}>
-            <div
-              style={selectedPlanetId ? { width: '70%' } : { width: '100%' }}
-            >
-              <ResultsList
-                planets={data.results}
-                setSelectedPlanetId={setSelectedPlanetId}
-              />
-            </div>
-
-            {selectedPlanetId && (
-              <div id="details" ref={ref} className={classes.details}>
-                <Outlet />
+            <div className={classes.resultsSection}>
+              <div
+                style={itemToShowDetails ? { width: '70%' } : { width: '100%' }}
+              >
+                <ResultsList />
               </div>
-            )}
-          </div>
-        </>
-      )}
+
+              {itemToShowDetails && (
+                <div
+                  id="details"
+                  ref={ref}
+                  className={`${classes.details} ${theme}`}
+                >
+                  <Outlet />
+                </div>
+              )}
+            </div>
+          </>
+        )}
     </>
   );
 };

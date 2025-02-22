@@ -1,6 +1,6 @@
 .details {
-  // width: 30%;
-padding: 10px;
+  height: 100%;
+  padding: 10px;
   background-color: burlywood;
   border-radius: 5px;
 }
@@ -20,20 +20,39 @@ padding: 10px;
   align-items: center;
   width: 100%;
   margin-bottom: 5px;
-  padding: 5px 0;
+  padding: 10px;
   border-radius: 5px;
   background-color: chocolate;
   font-size: 22px;
   font-weight: bold;
+  &.light {
+    background-color: #238df0;
+  }
 }
 .detailsContent {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // align-items: center;
   padding: 10px;
-  // box-sizing: border-box;
   border-radius: 5px;
-  background-color: burlywood;
 }
+.light {
+  background-color: #ffebcd;
+}
+.closeBtn{
+  margin-left: auto;
+  padding: 5px;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition:
+    color 0.5s ease;
+  &:hover {
+    color: chocolate;
+  }
+}
+

@@ -5,6 +5,7 @@ import './index.css';
 import PlanetsSearchPage from './pages/searchPage/PlanetsSearchPage.tsx';
 import ErrorBoundary from './hoc/errorBoundary/ErrorBoundary.tsx';
 import ItemDetailsCard from './components/itemDetailsCard/ItemDetailsCard.tsx';
+import ThemeProvider from './hoc/ThemeProvider.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 
@@ -14,15 +15,17 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <ErrorBoundary>
         <Provider store={store}>
-          <Routes>
-            <Route path="/" element={<PlanetsSearchPage />}>
-              <Route
-                path="planets/:id"
-                element={<ItemDetailsCard key={location.pathname} />}
-              />
-            </Route>
-            <Route path="*" element={<PlanetsSearchPage />} />
-          </Routes>
+          <ThemeProvider>
+            <Routes>
+              <Route path="/" element={<PlanetsSearchPage />}>
+                <Route
+                  path="planets/:id"
+                  element={<ItemDetailsCard key={location.pathname} />}
+                />
+              </Route>
+              <Route path="*" element={<PlanetsSearchPage />} />
+            </Routes>
+          </ThemeProvider>
         </Provider>
       </ErrorBoundary>
     </BrowserRouter>
