@@ -1,7 +1,6 @@
 .cardLink {
   display: block;
   width: calc(33.33% - 10px);
-  // width: calc(25% - 10px);
   margin-bottom: 10px;
   box-sizing: border-box;
   border: 5px solid chocolate;
@@ -31,7 +30,7 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; // Позволяем контенту занимать доступное пространство
+  flex-grow: 1; 
 }
 .planetNameSelect {
   display: flex;
@@ -63,7 +62,7 @@
 }
 
 .detailValue {
-  flex-grow: 1; // Значение занимает оставшееся пространство
+  flex-grow: 1; 
 }
 .checkbox {
   width: 20px;

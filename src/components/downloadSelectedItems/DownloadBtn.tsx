@@ -9,7 +9,7 @@ const DownloadBtn = () => {
   const convertToCSV = (data: PlanetCharacteristics[]) => {
     const headers = Object.keys(data[0]).join(',');
     const rows = data.map((row) => Object.values(row).join(','));
-    return [headers, ...rows].join('\n'); // Объединяем в одну строку
+    return [headers, ...rows].join('\n');
   };
 
   const downloadCSV = (data: PlanetCharacteristics[]) => () => {

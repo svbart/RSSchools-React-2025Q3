@@ -8,14 +8,15 @@ import ItemDetailsCard from './components/itemDetailsCard/ItemDetailsCard.tsx';
 import ThemeProvider from './hoc/ThemeProvider.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
+import NotFoundPage from './pages/notFoundPage/NotFoundPage.tsx';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ErrorBoundary>
-        <Provider store={store}>
-          <ThemeProvider>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <Provider store={store}>
             <Routes>
               <Route path="/" element={<PlanetsSearchPage />}>
                 <Route
@@ -23,11 +24,11 @@ createRoot(document.getElementById('root')!).render(
                   element={<ItemDetailsCard key={location.pathname} />}
                 />
               </Route>
-              <Route path="*" element={<PlanetsSearchPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
-          </ThemeProvider>
-        </Provider>
-      </ErrorBoundary>
+          </Provider>
+        </ErrorBoundary>
+      </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
 );

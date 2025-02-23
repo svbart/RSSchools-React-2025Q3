@@ -70,10 +70,6 @@ const Card: FC<ICardProps> = ({ planet }) => {
               <span className={classes.detailLabel}>Gravity:</span>
               <span className={classes.detailValue}>{planet.gravity}</span>
             </div>
-            <div className={classes.detailRow}>
-              <span className={classes.detailLabel}>Surface water:</span>
-              <span className={classes.detailValue}>{planet.surfaceWater}</span>
-            </div>
           </div>
         </div>
       </div>

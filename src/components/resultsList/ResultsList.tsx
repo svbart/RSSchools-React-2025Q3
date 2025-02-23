@@ -3,10 +3,6 @@ import classes from './ResultsList.module.scss';
 import { useAppSelector } from '../../store/hooks';
 import { PlanetCharacteristics } from '../../common/types/types';
 
-// interface ResultsListProps {
-//   planets: PlanetCharacteristics[];
-// }
-
 const ResultsList = () => {
   const { currentPageData } = useAppSelector((state) => state.app);
   const planets: PlanetCharacteristics[] = currentPageData.results;

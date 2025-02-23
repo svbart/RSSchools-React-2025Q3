@@ -15,9 +15,6 @@ export const planetsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/planets' }),
   tagTypes: ['Planets', 'Planet'],
   endpoints: (builder) => ({
-    // getPlanets: builder.query<PlanetsResponse, string>({
-    //   query: (name) => `pokemon/${name}`,
-    // }),
     getPlanetById: builder.query<Partial<PlanetCharacteristics>, number>({
       query: (id) => {
         if (id === 0) {
@@ -57,32 +54,8 @@ export const planetsApi = createApi({
         }
         return [{ type: 'Planets', id: 'LIST' }];
       },
-      // reducer: (state, action) => {
-      //   if (planetsApi.endpoints.getPlanetsByPage.matchFulfilled.match(action)) {
-      //     return {
-      //       ...state,
-      //       currentPageData: action.payload.results,
-      //     };
-      //   }
-      //   return state;
-      // },
-      // extraReducers: (builder) => {
-      //   builder.addMatcher(
-      //     planetsApi.endpoints.getPlanetsByPage.matchFulfilled,
-      //     (_: RootState, { payload }: { payload: PlanetsResponse }) => {
-      //       const dispatch = useAppDispatch();
-      //       dispatch(setCurrentPageData(payload.results)); // Используем action creator!
-      //     }
-      //   );
-      // },
     }),
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
-export const {
-  // useGetPlanetsQuery,
-  useGetPlanetByIdQuery,
-  useGetPlanetsByPageQuery,
-} = planetsApi;
+export const { useGetPlanetByIdQuery, useGetPlanetsByPageQuery } = planetsApi;
