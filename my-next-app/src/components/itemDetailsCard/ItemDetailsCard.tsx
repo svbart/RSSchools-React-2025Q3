@@ -12,20 +12,15 @@ import {
 import { useTheme } from '../../contexts/ThemeContext';
 import { useRouter } from 'next/router';
 
-// import { useNavigate, useSearchParams } from 'react-router';
-
 const ItemDetailsCard = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  // const navigate = useNavigate();
   const { itemToShowDetails, pageNumber, searchValue } = useAppSelector(
     (state) => state.app
   );
   const { data, error, isLoading } = useGetPlanetByIdQuery(
     itemToShowDetails ? getIdFromUrl(itemToShowDetails.url) : 0
   );
-  // const [searchParams] = useSearchParams();
-
   const themeContext = useTheme();
   const darkMode = themeContext?.darkMode;
   const theme = darkMode ? classes.dark : classes.light;
@@ -34,15 +29,11 @@ const ItemDetailsCard = () => {
     dispatch(setItemToShowDetails(null));
     const pageFromUrl = Number(router.query.page) || pageNumber;
 
-    // const pageFromUrl = Number(searchParams.get('page')) || pageNumber;
-
     dispatch(setPageNumber(pageFromUrl));
     router.replace({
       pathname: '/planets',
       query: { page: pageFromUrl.toString(), query: searchValue },
     });
-
-    // navigate(`/?page=${pageFromUrl}`);
   };
   useEffect(() => {
     if (data) {

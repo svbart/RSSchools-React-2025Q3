@@ -11,12 +11,6 @@ const CreateErrorButton = () => {
     setHasError(true);
   };
 
-  // useEffect(() => {
-  //   if (hasError) {
-  //     throw new Error('An error occurred');
-  //   }
-  // }, [hasError]);
-
   return (
     <button onClick={handelClick} className={styles.errorButton}>
       Throw Error!

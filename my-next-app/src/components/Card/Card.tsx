@@ -1,5 +1,4 @@
 import { FC, SyntheticEvent } from 'react';
-// import { useNavigate } from 'react-router';
 import classes from './Card.module.scss';
 import { PlanetCharacteristics } from '../../common/types/types';
 import { getIdFromUrl } from '../../common/utils/utils';
@@ -10,7 +9,6 @@ import {
 } from '../../store/storeSlices/app-reducer';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useRouter } from 'next/router';
-// import { getIdFromUrl } from '@/src/common/utils/utils';
 
 interface ICardProps {
   planet: PlanetCharacteristics;
@@ -33,14 +31,8 @@ const Card: FC<ICardProps> = ({ planet }) => {
     }
     const id = getIdFromUrl(planet.url);
 
-    // router.replace({
-    //   pathname: `/planets/${id}`,
-    //   query: { page: pageNumber.toString() },
-    // });
     router.push(`/planets/${id}`);
     dispatch(setItemToShowDetails(planet));
-
-    // router.push(`/planets/page=${pageNumber}/${id}`);
   };
 
   const handleCheckboxChange = (event: SyntheticEvent) => {
