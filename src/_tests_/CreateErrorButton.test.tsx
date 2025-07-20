@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import CreateErrorButton from './CreateErrorButton';
+import CreateErrorButton from '../components/createErrorButton/CreateErrorButton';
 import { describe, it, expect } from 'vitest';
 import { Component } from 'react';
-import { ChildrenAsProps } from '../../common/types/types';
+import { ChildrenAsProps } from '../common/types/types';
 
 interface ErrorBoundaryState {
   hasError: boolean;

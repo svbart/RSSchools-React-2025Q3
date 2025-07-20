@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prepare": "husky",
     "test": "vitest run --reporter=verbose",
-    "coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage",
     "test:ci": "vitest run --reporter=verbose --coverage",
     "test:ci:watch": "vitest run --reporter=verbose --coverage --watch",
     "test:ci:debug": "vitest run --reporter=verbose --coverage --watch --debug"

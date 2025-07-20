@@ -1,7 +1,7 @@
 import { PlanetCharacteristics } from '../types/types';
 
 export const getBaseUrl = () => {
-  return 'https://swapi.dev/api/planets';
+  return 'https://swapi.py4e.com/api/planets';
 };
 
 export const normalizeData = <T extends Record<string, string>>(

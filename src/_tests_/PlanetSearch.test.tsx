@@ -1,13 +1,14 @@
 import '@testing-library/jest-dom';
 import { test, beforeEach, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import PlanetsSearch from './PlanetsSearch';
+import PlanetsSearch from '../containers/planetsSearch/PlanetsSearch';
 import { vi } from 'vitest';
 
 vi.mock('../../common/utils/utils', () => ({
   getBaseUrl: () => 'https://swapi.dev/api/planets',
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  normalizeData: (data: any) => data.map((item: any) => ({ name: item.name })),
+  normalizeData: (data: { name: string }[]) =>
+    data.map((item: { name: string }) => ({ name: item.name })),
 }));
 
 beforeEach(() => {
