@@ -6,10 +6,6 @@ interface SearchFieldProps {
 }
 
 export default class SearchField extends Component<SearchFieldProps> {
-  // constructor(props: any) {
-  //   super(props);
-  // }
-
   render() {
     return (
       <input
