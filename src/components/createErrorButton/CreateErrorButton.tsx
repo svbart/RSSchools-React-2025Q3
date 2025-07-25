@@ -1,18 +1,23 @@
-import { Component, SyntheticEvent } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import classes from './CreateErrorButton.module.scss';
 
-export default class CreateErrorButton extends Component {
-  state = {
-    hasError: false,
+const CreateErrorButton = () => {
+  const [hasError, setHasError] = useState<boolean>(false);
+
+  const handelClick = (_event: SyntheticEvent) => {
+    setHasError(true);
   };
 
-  handelClick = (_event: SyntheticEvent) => {
-    this.setState({ hasError: true });
-  };
-
-  render() {
-    if (this.state.hasError) {
+  useEffect(() => {
+    if (hasError) {
       throw new Error('An error occurred');
     }
-    return <button onClick={this.handelClick}>Throw Error!</button>;
-  }
-}
+  }, [hasError]);
+
+  return (
+    <button onClick={handelClick} className={classes.errorButton}>
+      Throw Error!
+    </button>
+  );
+};
+export default CreateErrorButton;
