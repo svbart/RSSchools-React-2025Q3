@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Code coverage report for src/main.tsx</title>
+    <title>Code coverage report for src/App.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,13 +19,13 @@
       <div class="pad1">
         <h1>
           <a href="../index.html">All files</a> /
-          <a href="index.html">src</a> main.tsx
+          <a href="index.html">src</a> App.tsx
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
             <span class="strong">0% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">0/9</span>
+            <span class="fraction">0/16</span>
           </div>
 
           <div class="fl pad1y space-right2">
@@ -43,7 +43,7 @@
           <div class="fl pad1y space-right2">
             <span class="strong">0% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">0/9</span>
+            <span class="fraction">0/16</span>
           </div>
         </div>
         <p class="quiet">
@@ -70,28 +70,49 @@
 <a name='L9'></a><a href='#L9'>9</a>
 <a name='L10'></a><a href='#L10'>10</a>
 <a name='L11'></a><a href='#L11'>11</a>
-<a name='L12'></a><a href='#L12'>12</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { StrictMode } from 'react';<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
-<span class="cstat-no" title="statement not covered" >import { createRoot } from 'react-dom/client';</span>
-<span class="cstat-no" title="statement not covered" >import './index.css';</span>
-<span class="cstat-no" title="statement not covered" >import App from './App.tsx';</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { Component } from 'react';<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cstat-no" title="statement not covered" >import Layout from './hoc/layout/Layout';</span>
+<span class="cstat-no" title="statement not covered" >import PlanetsSearch from './containers/planetsSearch/PlanetsSearch';</span>
+<span class="cstat-no" title="statement not covered" >import classes from './App.module.scss';</span>
+<span class="cstat-no" title="statement not covered" >import ErrorBoundary from './hoc/errorBoundary/ErrorBoundary';</span>
 &nbsp;
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-<span class="cstat-no" title="statement not covered" >createRoot(document.getElementById('root')!).render(</span>
-<span class="cstat-no" title="statement not covered" >  &lt;StrictMode&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;App /&gt;</span>
-<span class="cstat-no" title="statement not covered" >  &lt;/StrictMode&gt;</span>
-<span class="cstat-no" title="statement not covered" >);</span>
+<span class="cstat-no" title="statement not covered" >export default class App extends Component {</span>
+<span class="cstat-no" title="statement not covered" >  render() {</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
+<span class="cstat-no" title="statement not covered" >      &lt;ErrorBoundary&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;Layout&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;h1 className={classes.header}&gt;Star Wars Planets&lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;PlanetsSearch /&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/Layout&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/ErrorBoundary&gt;</span>
+    );
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
       <div class="push"></div>
@@ -106,7 +127,7 @@
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2025-07-20T21:10:29.747Z
+      at 2025-07-23T18:45:01.032Z
     </div>
     <script src="../prettify.js"></script>
     <script>

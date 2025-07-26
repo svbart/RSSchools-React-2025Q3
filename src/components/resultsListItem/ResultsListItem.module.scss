@@ -20,13 +20,13 @@
 
 .col1 {
   width: 30%;
-  min-height: 240px;
+  min-height: 200px;
   vertical-align: middle;
   text-align: center;
   font-size: 24px;
   font-weight: bold;
   line-height: 100px;
-  color: beige;
+  color: #ffebcd;
   background-image: url('../../assets/images/space1.webp');
   background-size: cover;
 }
@@ -38,24 +38,28 @@
   font-size: 16px;
   font-weight: bold;
 }
+
 .row {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   background-color: burlywood;
 }
+
 .rowCol1 {
   width: 40%;
   text-align: center;
   border-radius: 3px;
   font-weight: bold;
-  background-color: chocolate;
+  border-bottom: 1px dashed #654321;
+  // background-color: chocolate;
 }
+
 .rowCol2 {
   width: 70%;
   padding: 2px;
   box-sizing: border-box;
   text-align: center;
-  border-bottom: 1px dashed chocolate;
+  border-bottom: 1px dashed #654321;
   font-weight: bold;
 }

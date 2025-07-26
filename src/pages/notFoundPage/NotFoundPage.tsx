@@ -1,6 +1,7 @@
 import { FC } from 'react';
 // import { Link } from 'react-router';
 import Layout from '../../hoc/layout/Layout';
+import { Link } from 'react-router';
 
 const NotFoundPage: FC = () => {
   return (
@@ -19,7 +20,7 @@ const NotFoundPage: FC = () => {
         }}
       >
         <h2 style={{ margin: '10px 0' }}>Page Not Found</h2>
-        <p> {/* Go to the <Link to="/">Homepage</Link>{' '} */}</p>
+        <p> Go to the {<Link to="/">Homepage</Link>}</p>
       </div>
     </Layout>
   );
