@@ -3,9 +3,10 @@ import { test, beforeEach, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import PlanetsSearch from '../containers/planetsSearch/PlanetsSearch';
 import { vi } from 'vitest';
+import { BrowserRouter } from 'react-router';
 
 vi.mock('../../common/utils/utils', () => ({
-  getBaseUrl: () => 'https://swapi.dev/api/planets',
+  getBaseUrl: () => 'https://swapi.py4e.com/api/planets',
   normalizeData: (data: { name: string }[]) =>
     data.map((item: { name: string }) => ({ name: item.name })),
 }));
@@ -15,7 +16,7 @@ beforeEach(() => {
   vi.restoreAllMocks();
 });
 
-test('успешный fetch показывает список планет', async () => {
+test('successful fetch displays the list of planets', async () => {
   globalThis.fetch = vi.fn().mockResolvedValue({
     ok: true,
     json: () =>
@@ -23,11 +24,13 @@ test('успешный fetch показывает список планет', as
         results: [{ name: 'Tatooine' }, { name: 'Alderaan' }],
       }),
   });
-  render(<PlanetsSearch />);
+  render(
+    <BrowserRouter>
+      <PlanetsSearch />
+    </BrowserRouter>
+  );
 
-  const element = screen.getByText(/Loading.../i);
-
-  expect(element).toBeInTheDocument();
+  expect(screen.getByTestId('spinner')).toBeInTheDocument();
 
   await waitFor(() => {
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);

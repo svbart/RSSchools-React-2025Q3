@@ -8,18 +8,19 @@
   align-items: center;
   justify-content: center;
   color: beige;
-  
-  .name p, h2 {
+
+  .name p,
+  h2 {
     font-weight: 500;
     color: beige;
   }
-  
-  a {   
+
+  a {
     font-weight: 500;
     color: beige;
     text-decoration: none;
     transition: transform 0.2s ease-in-out;
-      &:hover {
+    &:hover {
       color: beige;
       transform: scale(1.2);
     }

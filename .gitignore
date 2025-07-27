@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Coverage
+coverage/
+**/coverage/
+.nyc_output/
+*.lcov
+
+# Testing snapshots
+**/__snapshots__
+
+# Parcel/Vite/Vitest caches
+.cache/
+.vite/
+.vitest/

@@ -25,9 +25,9 @@
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">94.73% </span>
+            <span class="strong">95.23% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">18/19</span>
+            <span class="fraction">20/21</span>
           </div>
 
           <div class="fl pad1y space-right2">
@@ -43,9 +43,9 @@
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">94.73% </span>
+            <span class="strong">95.23% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">18/19</span>
+            <span class="fraction">20/21</span>
           </div>
         </div>
         <p class="quiet">
@@ -89,7 +89,12 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -98,8 +103,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -109,6 +113,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -117,34 +127,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Component } from 'react';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from 'react';
 import ResultsListItem from '../resultsListItem/ResultsListItem';
 import { PlanetCharacteristics } from '../../common/types/types';
 import classes from './ResultsList.module.scss';
 &nbsp;
 interface ResultsListProps {
   planets: PlanetCharacteristics[];
+  setSelectedPlanetId: React.Dispatch&lt;React.SetStateAction&lt;number | null&gt;&gt;;
 }
 &nbsp;
-export default class ResultsList extends Component&lt;ResultsListProps&gt; {
-  render() {
-    return (
-      &lt;div className={classes.ResultsList}&gt;
-        &lt;div className={classes.header}&gt;
-          &lt;div className={classes.col1}&gt;Planet Name&lt;/div&gt;
-          &lt;div className={classes.col2}&gt;Planet Characteristics&lt;/div&gt;
-        &lt;/div&gt;
-        {this.props.planets.length ? (
-          this.props.planets.map((planet, index) =&gt; {
-            return &lt;ResultsListItem key={index} {...planet} /&gt;;
-          }<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
-        ) : (
-<span class="cstat-no" title="statement not covered" >          &lt;div className={classes.noResults}&gt;No results&lt;/div&gt;</span>
-        )}
-      &lt;/div&gt;
-    );
-  }
-}
+const ResultsList: FC&lt;ResultsListProps&gt; = ({
+  planets,
+  setSelectedPlanetId,
+}) =&gt; {
+  return (
+    &lt;div className={classes.ResultsList}&gt;
+      {planets.length ? (
+        planets.map((planet, index) =&gt; {
+          return (
+            &lt;ResultsListItem
+              key={index}
+              planet={planet}
+              setSelectedPlanetId={setSelectedPlanetId}
+            /&gt;
+          );
+        }<span class="branch-0 cbranch-no" title="branch not covered" >)</span>
+      ) : (
+<span class="cstat-no" title="statement not covered" >        &lt;div className={classes.noResults}&gt;No results&lt;/div&gt;</span>
+      )}
+    &lt;/div&gt;
+  );
+};
+export default ResultsList;
 &nbsp;</pre></td></tr></table></pre>
 
       <div class="push"></div>
@@ -159,7 +174,7 @@ export default class ResultsList extends Component&lt;ResultsListProps&gt; {
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2025-07-20T21:10:29.747Z
+      at 2025-07-27T16:34:12.313Z
     </div>
     <script src="../../../prettify.js"></script>
     <script>
