@@ -6,7 +6,6 @@ import { vi } from 'vitest';
 
 vi.mock('../../common/utils/utils', () => ({
   getBaseUrl: () => 'https://swapi.dev/api/planets',
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   normalizeData: (data: { name: string }[]) =>
     data.map((item: { name: string }) => ({ name: item.name })),
 }));

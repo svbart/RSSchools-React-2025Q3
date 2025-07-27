@@ -8,8 +8,12 @@ import NotFoundPage from './pages/notFoundPage/NotFoundPage.tsx';
 import AboutPage from './pages/aboutPage/AboutPage.tsx';
 import './index.css';
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root');
+
+if (!container) {
+  throw new Error('Root element not found');
+}
+createRoot(container).render(
   <StrictMode>
     <BrowserRouter>
       <ErrorBoundary>

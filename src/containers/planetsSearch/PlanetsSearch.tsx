@@ -21,9 +21,9 @@ export interface PlanetsSearchState {
 }
 
 const PlanetsSearch = () => {
-  // const savedSearch = localStorage.getItem('searchValue') || '';
-  const [searchParams, setSearchParams] = useSearchParams();
   const [savedSearch, setSavedSearch] = useLocalStorage();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const initialSearchValue = searchParams.get('search') || savedSearch;
   const [pageNumber, setPageNumber] = useState(
     Number(searchParams.get('page')) || 1
@@ -44,18 +44,15 @@ const PlanetsSearch = () => {
     const formData = new FormData(event.currentTarget);
     const searchValue = formData.get('input') as string;
 
-    // setPageNumber(1);
-    setSearchParams({ search: searchValue, page: pageNumber.toString() });
-    // setSearchParams({ search: searchValue, page: '1' });
+    setPageNumber(1);
+    setSearchParams({ search: searchValue, page: '1' });
     setSelectedPlanetId(null);
     setState((prev) => ({ ...prev, searchValue }));
 
     if (searchValue) {
       setSavedSearch(searchValue);
-      // localStorage.setItem('searchValue', searchValue);
     } else {
       setSavedSearch('');
-      localStorage.removeItem('searchValue');
     }
   };
 
@@ -101,24 +98,7 @@ const PlanetsSearch = () => {
       const url = `${getBaseUrl()}/?page=${pageNumber}`;
       fetchData(url);
     }
-  }, [pageNumber, state.searchValue]);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (ref.current && !ref.current.contains(event.target as Node)) {
-  //       setSelectedPlanetId(null);
-  //       const lastSearch = localStorage.getItem('searchValue') || '';
-  //       const currentPage = pageNumber.toString();
-  //       setSearchParams(
-  //         lastSearch
-  //           ? { search: lastSearch, page: currentPage }
-  //           : { page: currentPage }
-  //       );
-  //     }
-  //   };
-  //   window.addEventListener('click', handleClickOutside, true);
-  //   return () => window.removeEventListener('click', handleClickOutside);
-  // }, [setSearchParams, setSelectedPlanetId, pageNumber]);
+  }, [pageNumber, state.searchValue, setSearchParams]);
 
   return (
     <>
@@ -127,14 +107,16 @@ const PlanetsSearch = () => {
         <CreateErrorButton />
       </div>
       <Results />
-      {state.requestError.length && (
+      {state.requestError.length ? (
         <div className={classes.errorMessage}>{state.requestError}</div>
-      )}
+      ) : null}
 
       {state.isLoading ? <Spinner /> : null}
-      {!state.isLoading && !state.requestError && state.results.length < 1 && (
-        <div className={classes.loading}>Nothing found</div>
-      )}
+      {!state.isLoading && !state.requestError && state.results.length < 1 ? (
+        <div className={classes.searchInfo}>
+          Oops, we couldn&apos;t find anything
+        </div>
+      ) : null}
 
       {!state.isLoading && !state.requestError && state.results.length > 0 && (
         <>
