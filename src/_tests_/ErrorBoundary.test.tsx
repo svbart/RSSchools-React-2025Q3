@@ -4,7 +4,7 @@ import ErrorBoundary from '../hoc/errorBoundary/ErrorBoundary';
 
 function ErrorChild() {
   throw new Error('Test error');
-  return null; // This line is unreachable but needed to satisfy the component structure
+  return null;
 }
 
 describe('ErrorBoundary', () => {

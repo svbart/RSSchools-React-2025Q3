@@ -23,3 +23,9 @@ export const normalizeData = <T extends Record<string, string>>(
     return normalizedPlanet as PlanetCharacteristics;
   });
 };
+
+export const getIdFromUrl = (url?: string) => {
+  if (!url) return NaN;
+  const parts = url.split('/').filter(Boolean);
+  return Number(parts[parts.length - 1]);
+};
