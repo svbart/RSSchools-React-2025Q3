@@ -11,6 +11,7 @@ import SearchForm from '../../components/searchForm/SearchForm';
 import Spinner from '../../common/spinner/Spinner';
 import { Outlet, useSearchParams } from 'react-router';
 import classes from './PlanetsSearch.module.scss';
+import { useLocalStorage } from '../../common/hooks/useLocalStorage';
 
 export interface PlanetsSearchState {
   searchValue: string;
@@ -20,9 +21,9 @@ export interface PlanetsSearchState {
 }
 
 const PlanetsSearch = () => {
-  const savedSearch = localStorage.getItem('searchValue') || '';
+  // const savedSearch = localStorage.getItem('searchValue') || '';
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [savedSearch, setSavedSearch] = useLocalStorage();
   const initialSearchValue = searchParams.get('search') || savedSearch;
   const [pageNumber, setPageNumber] = useState(
     Number(searchParams.get('page')) || 1
@@ -43,14 +44,17 @@ const PlanetsSearch = () => {
     const formData = new FormData(event.currentTarget);
     const searchValue = formData.get('input') as string;
 
-    setPageNumber(1);
-    setSearchParams({ search: searchValue, page: '1' });
+    // setPageNumber(1);
+    setSearchParams({ search: searchValue, page: pageNumber.toString() });
+    // setSearchParams({ search: searchValue, page: '1' });
     setSelectedPlanetId(null);
     setState((prev) => ({ ...prev, searchValue }));
 
     if (searchValue) {
-      localStorage.setItem('searchValue', searchValue);
+      setSavedSearch(searchValue);
+      // localStorage.setItem('searchValue', searchValue);
     } else {
+      setSavedSearch('');
       localStorage.removeItem('searchValue');
     }
   };

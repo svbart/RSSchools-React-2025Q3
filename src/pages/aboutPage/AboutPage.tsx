@@ -10,7 +10,7 @@ const AboutPage = () => {
         <h2 className={classes.name}>About</h2>
         <p>Author: Svetlana Bartkevich </p>
         <a
-          href="https://https://rs.school/courses/reactjs.com/SvetlanaBartkevich"
+          href="https://rs.school/courses/reactjs"
           target="_blank"
           rel="noopener noreferrer"
         >
