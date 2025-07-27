@@ -1,4 +1,4 @@
-import { FC, useState, SyntheticEvent, useEffect, useRef } from 'react';
+import { useState, SyntheticEvent, useEffect, useRef } from 'react';
 import Results from '../../components/results/Results';
 import ResultsList from '../../components/resultsList/ResultsList';
 import { PlanetCharacteristics } from '../../common/types/types';
@@ -19,7 +19,7 @@ export interface PlanetsSearchState {
   requestError: string;
 }
 
-const PlanetsSearch: FC = () => {
+const PlanetsSearch = () => {
   const savedSearch = localStorage.getItem('searchValue') || '';
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -45,6 +45,7 @@ const PlanetsSearch: FC = () => {
 
     setPageNumber(1);
     setSearchParams({ search: searchValue, page: '1' });
+    setSelectedPlanetId(null);
     setState((prev) => ({ ...prev, searchValue }));
 
     if (searchValue) {
@@ -75,6 +76,10 @@ const PlanetsSearch: FC = () => {
           results: normalizedData,
           isLoading: false,
         }));
+        setSearchParams({
+          search: localStorage.getItem('searchValue') || '',
+          page: pageNumber.toString(),
+        });
       } catch (error: unknown) {
         setState((prev) => ({
           ...prev,
@@ -94,26 +99,25 @@ const PlanetsSearch: FC = () => {
     }
   }, [pageNumber, state.searchValue]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setSelectedPlanetId(null);
-        const lastSearch = localStorage.getItem('searchValue') || '';
-        const currentPage = pageNumber.toString();
-        setSearchParams(
-          lastSearch
-            ? { search: lastSearch, page: currentPage }
-            : { page: currentPage }
-        );
-      }
-    };
-    window.addEventListener('click', handleClickOutside, true);
-    return () => window.removeEventListener('click', handleClickOutside);
-  }, [setSearchParams, setSelectedPlanetId, pageNumber]);
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (ref.current && !ref.current.contains(event.target as Node)) {
+  //       setSelectedPlanetId(null);
+  //       const lastSearch = localStorage.getItem('searchValue') || '';
+  //       const currentPage = pageNumber.toString();
+  //       setSearchParams(
+  //         lastSearch
+  //           ? { search: lastSearch, page: currentPage }
+  //           : { page: currentPage }
+  //       );
+  //     }
+  //   };
+  //   window.addEventListener('click', handleClickOutside, true);
+  //   return () => window.removeEventListener('click', handleClickOutside);
+  // }, [setSearchParams, setSelectedPlanetId, pageNumber]);
 
   return (
     <>
-      {/* <> */}
       <div className={classes.SearchSection}>
         <SearchForm handleSubmit={handleSubmit} />
         <CreateErrorButton />
@@ -142,7 +146,7 @@ const PlanetsSearch: FC = () => {
 
           <div className={classes.resultsSection}>
             <div
-              style={selectedPlanetId ? { width: '60%' } : { width: '100%' }}
+              style={selectedPlanetId ? { width: '70%' } : { width: '100%' }}
             >
               <ResultsList
                 planets={state.results}

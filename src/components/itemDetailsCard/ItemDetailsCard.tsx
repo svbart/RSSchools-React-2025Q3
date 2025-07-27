@@ -3,21 +3,14 @@ import { PlanetCharacteristics } from '../../common/types/types';
 import classes from './ItemDetailsCard.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import { useParams } from 'react-router';
-import CloseItemDetailsButton from './closeItemDetailsButton/closeItemDetailsButton';
+import CloseItemDetailsButton from '../closeItemDetailsButton/closeItemDetailsButton';
 
 const ItemDetailsCard: FC = () => {
   const { id } = useParams();
   const [data, setData] = useState<PlanetCharacteristics | null>(null);
-  const [planetId, setPlanetId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (id) {
-      setPlanetId((prev) => (prev !== Number(id) ? Number(id) : prev));
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (!planetId) return;
+    if (!id) return;
     setData(null);
     const fetchData = async (id: number) => {
       try {
@@ -30,14 +23,14 @@ const ItemDetailsCard: FC = () => {
         console.error('Error fetching planet data:', error);
       }
     };
-    fetchData(planetId);
-  }, [planetId]);
+    fetchData(Number(id));
+  }, [id]);
 
   return (
     <>
       <div className={classes.details}>
         <div className={classes.detailsHeader}>
-          Details <CloseItemDetailsButton setPlanetId={setPlanetId} />
+          Details <CloseItemDetailsButton />
         </div>
       </div>
       <div className={classes.detailsContent}>
