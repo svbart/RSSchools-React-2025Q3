@@ -3,13 +3,17 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { describe, test, expect } from 'vitest';
 import AboutPage from '../pages/aboutPage/AboutPage';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 describe('AboutPage component', () => {
   test('renders heading, author name, and course link', () => {
     render(
-      <MemoryRouter>
-        <AboutPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <AboutPage />
+        </MemoryRouter>
+      </Provider>
     );
 
     const heading = screen.getByRole('heading', { name: /about/i });

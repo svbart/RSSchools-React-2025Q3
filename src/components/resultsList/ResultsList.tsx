@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import ResultsListItem from '../resultsListItem/ResultsListItem';
-import { PlanetCharacteristics } from '../../common/types/types';
 import classes from './ResultsList.module.scss';
+import { PlanetCharacteristics } from '../../common/types/types';
+import Card from '../card/Card';
+import { FC } from 'react';
 
 interface ResultsListProps {
   planets: PlanetCharacteristics[];
@@ -17,7 +17,7 @@ const ResultsList: FC<ResultsListProps> = ({
       {planets.length ? (
         planets.map((planet, index) => {
           return (
-            <ResultsListItem
+            <Card
               key={index}
               planet={planet}
               setSelectedPlanetId={setSelectedPlanetId}

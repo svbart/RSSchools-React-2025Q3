@@ -4,6 +4,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import PlanetsSearch from '../containers/planetsSearch/PlanetsSearch';
 import { vi } from 'vitest';
 import { BrowserRouter } from 'react-router';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 vi.mock('../../common/utils/utils', () => ({
   getBaseUrl: () => 'https://swapi.py4e.com/api/planets',
@@ -25,9 +27,11 @@ test('successful fetch displays the list of planets', async () => {
       }),
   });
   render(
-    <BrowserRouter>
-      <PlanetsSearch />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <PlanetsSearch />
+      </BrowserRouter>
+    </Provider>
   );
 
   expect(screen.getByTestId('spinner')).toBeInTheDocument();
