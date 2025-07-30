@@ -4,7 +4,7 @@ import { getIdFromUrl } from '../../common/utils/utils';
 import { Link, useSearchParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateSelectedItems } from '../../store/storeSlices/app-reducer';
-import classes from './Card.module.css';
+import classes from './Card.module.scss';
 
 interface ResultsListProps {
   planet: PlanetCharacteristics;
