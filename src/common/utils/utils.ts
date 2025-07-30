@@ -29,3 +29,7 @@ export const getIdFromUrl = (url?: string) => {
   const parts = url.split('/').filter(Boolean);
   return Number(parts[parts.length - 1]);
 };
+
+export const getNumberOfSelectedItems = (length: number) => {
+  return length === 1 ? '1 planet' : `${length} planets`;
+};
