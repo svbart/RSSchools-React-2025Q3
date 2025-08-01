@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
-export interface IShowDetailsContext {
+interface IShowDetailsContext {
   setSelectedPlanetId: Dispatch<SetStateAction<number | null>>;
 }
 

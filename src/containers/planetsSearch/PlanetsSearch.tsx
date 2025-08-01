@@ -102,7 +102,7 @@ const PlanetsSearch = () => {
 
   return (
     <>
-      <div className={classes.SearchSection}>
+      <div className={classes.SearchSection} data-theme-element="true">
         <SearchForm handleSubmit={handleSubmit} />
         <CreateErrorButton />
       </div>

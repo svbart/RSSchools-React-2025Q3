@@ -14,11 +14,11 @@ const Flyout = () => {
 
   if (selectedItems.length)
     return (
-      <div className={classes.flyout}>
+      <div className={classes.flyout} data-theme-element="true">
         <p className={classes.flyoutText}>
           {`${getNumberOfSelectedItems(selectedItems.length)} selected`}
         </p>
-        <button onClick={handleUnselectAll} className={classes.flyoutBtn}>
+        <button onClick={handleUnselectAll} className={classes.unselectBtn}>
           Unselect all
         </button>
         <DownloadBtn />

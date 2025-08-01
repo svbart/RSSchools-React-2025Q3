@@ -1,4 +1,3 @@
-import Flyout from '../../components/flyout/Flyout';
 import Navigation from '../../components/navigation/Navigation';
 import PlanetsSearch from '../../containers/planetsSearch/PlanetsSearch';
 import Layout from '../../hoc/layout/Layout';
@@ -10,7 +9,6 @@ const PlanetsSearchPage = () => {
       <h1 className={classes.header}>Star Wars Planets</h1>
       <Navigation />
       <PlanetsSearch />
-      <Flyout />
     </Layout>
   );
 };

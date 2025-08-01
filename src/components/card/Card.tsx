@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent } from 'react';
+import { MouseEvent, FC, SyntheticEvent } from 'react';
 import { PlanetCharacteristics } from '../../common/types/types';
 import { getIdFromUrl } from '../../common/utils/utils';
 import { Link, useSearchParams } from 'react-router';
@@ -24,7 +24,7 @@ const Card: FC<ResultsListProps> = ({ planet, setSelectedPlanetId }) => {
   const id = getIdFromUrl(planet.url);
   const newSearch = `/planets/${id}/?search=${searchParams.get('search') || ''}&page=${searchParams.get('page')}`;
 
-  const handleCheckboxChange = (event: SyntheticEvent) => {
+  const handleCheckboxChange = (event: MouseEvent<HTMLInputElement>) => {
     event.stopPropagation();
     dispatch(updateSelectedItems(planet));
   };
@@ -35,7 +35,7 @@ const Card: FC<ResultsListProps> = ({ planet, setSelectedPlanetId }) => {
       className={`${classes.cardLink}`}
       onClick={handleClick}
     >
-      <div className={`${classes.cardVertical}`}>
+      <div className={`${classes.cardVertical}`} data-theme-element="true">
         <div className={classes.cardContent}>
           <div className={classes.planetNameSelect}>
             <div className={classes.planetName}>{planet.name}</div>
@@ -43,7 +43,7 @@ const Card: FC<ResultsListProps> = ({ planet, setSelectedPlanetId }) => {
               <input
                 type="checkbox"
                 checked={isSelected}
-                onChange={handleCheckboxChange}
+                onClick={handleCheckboxChange}
                 className={classes.checkbox}
               />
             </label>

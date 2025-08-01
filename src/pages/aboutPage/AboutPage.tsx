@@ -7,7 +7,7 @@ const AboutPage = () => {
     <Layout>
       <Navigation />
       <div className={classes.about}>
-        <h2 className={classes.name}>About</h2>
+        <h2 className={classes.name}>About this project</h2>
         <p>Author: Svetlana Bartkevich </p>
         <a
           href="https://rs.school/courses/reactjs"
