@@ -31,7 +31,7 @@ describe('App routing', () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId('spinner')).toBeInTheDocument(); //
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
 
   test('renders NotFoundPage on unknown route', () => {

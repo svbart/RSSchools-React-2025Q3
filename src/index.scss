@@ -74,8 +74,6 @@ p {
   margin: 0;
   padding: 0; 
   border: none;
-  // background-color: var(--bg-color);
-  // color: var(--text-color);
  }
 
 button {
@@ -86,7 +84,6 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: var(--bg-color);
-  // background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -98,15 +95,3 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-// @media (prefers-color-scheme: light) {
-//   :root {
-//     color: #654321;
-//     background-color: #ffffff;
-//   }
-//   a:hover {
-//     color: #654321;
-//   }
-//   button {
-//     background-color: #f9f9f9;
-//   }
-// }
