@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 export function useLocalStorage(): [string, (search: string) => void] {
   const [savedSearch, setValue] = useState(
-    localStorage.getItem('searchValue') || ''
+    localStorage.getItem('searchString') || ''
   );
 
   const setSavedSearch = (searchString: string) => {
-    localStorage.setItem('searchValue', searchString);
+    localStorage.setItem('searchString', searchString);
     setValue(searchString);
   };
   return [savedSearch, setSavedSearch];

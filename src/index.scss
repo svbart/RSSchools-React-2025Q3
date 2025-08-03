@@ -1,0 +1,97 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+    --bg-color: white;
+    --text-color: black;
+}
+
+
+.dark {
+  --bg-color: burlywood;
+  --text-color: #654321;
+  --link-color: #654321;
+  --border-color: chocolate;
+  --btn-hover-color: rgb(209, 159, 93);
+  --bg-image: url('./assets/images/milkyWay.jpg');
+  
+}
+
+.light {
+  --bg-color: rgb(143, 190, 209);
+  --text-color: black;
+  --link-color: black;
+  --border-color: rgb(37, 95, 129);
+  --btn-hover-color: rgb(64, 115, 145);
+  --bg-image: url('./assets/images/light1.jpg');
+}
+
+
+a {
+  font-weight: 500;
+  color: var(--link-color);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--link-color);
+}
+main{
+  background-image: var(--bg-image);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  background-image: var(--bg-image);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+h1 {
+  font-size: 2.2em;
+  line-height: 1.1;
+}
+
+p {
+ margin: 0;
+}
+[data-theme-element="true"] {
+  border-color: var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+ div{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; 
+  border: none;
+ }
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--bg-color);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #654321;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+

@@ -28,12 +28,12 @@ const ItemDetailsCard: FC = () => {
 
   return (
     <>
-      <div className={classes.details}>
-        <div className={classes.detailsHeader}>
+      <div className={classes.details} data-theme-element="true">
+        <div className={classes.detailsHeader} data-theme-element="true">
           Details <CloseItemDetailsButton />
         </div>
       </div>
-      <div className={classes.detailsContent}>
+      <div className={classes.detailsContent} data-theme-element="true">
         {!data ? (
           <Spinner />
         ) : (

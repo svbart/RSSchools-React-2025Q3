@@ -1,3 +1,4 @@
+import ThemeBtn from '../themeBtn/ThemeBtn';
 import classes from './Navigation.module.scss';
 import { NavLink } from 'react-router';
 
@@ -16,6 +17,7 @@ const Navigation = () => {
           </NavLink>
         </li>
       </ul>
+      <ThemeBtn />
     </nav>
   );
 };

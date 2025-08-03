@@ -2,6 +2,7 @@ import { FC, SyntheticEvent, useContext } from 'react';
 import classes from './Pagination.module.scss';
 import { useSearchParams } from 'react-router';
 import { PageContext, IPageContext } from '../../contexts/pageContext';
+import Flyout from '../flyout/Flyout';
 
 const Pagination: FC = () => {
   const context: IPageContext | null = useContext(PageContext);
@@ -26,22 +27,27 @@ const Pagination: FC = () => {
   };
 
   return (
-    <div className={classes.pagination}>
-      <button
-        className={classes.button}
-        onClick={handleButtonClick}
-        disabled={context?.pageNumber === 1}
-      >
-        Previous
-      </button>{' '}
-      <span className={classes.pageNumber}>{context?.pageNumber}</span>{' '}
-      <button
-        className={classes.button}
-        onClick={handleButtonClick}
-        disabled={!context?.thereIsNext}
-      >
-        Next
-      </button>
+    <div className={classes.container}>
+      <div className={classes.flyout}>
+        <Flyout />
+      </div>
+      <div className={classes.pagination}>
+        <button
+          className={classes.button}
+          onClick={handleButtonClick}
+          disabled={context?.pageNumber === 1}
+        >
+          Previous
+        </button>{' '}
+        <span className={classes.pageNumber}>{context?.pageNumber}</span>{' '}
+        <button
+          className={classes.button}
+          onClick={handleButtonClick}
+          disabled={!context?.thereIsNext}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

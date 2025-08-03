@@ -1,6 +1,6 @@
 .SearchSection {
   width: 80%;
-  padding: 10px 50px;
+  padding: 5px 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,4 +53,10 @@
   font-size: 22px;
   font-weight: 500;
   color: beige;
+}
+
+.resultsContainer {
+  display: flex;
+    justify-content: space-between;
+
 }

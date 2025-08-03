@@ -1,18 +1,11 @@
 .header {
   color: chocolate;
+  margin: 10px 0;
+  h1 {
+    font-size: 20px;
+    text-align: center;
+  }
 }
-
-.SearchSection {
-  width: 80%;
-  padding: 10px 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  border-radius: 5px;
-  background-color: burlywood;
-}
-
 .errorMessage {
   padding: 30px;
   font-size: 24px;

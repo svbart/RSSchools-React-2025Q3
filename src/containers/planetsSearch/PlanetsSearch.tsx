@@ -1,5 +1,4 @@
 import { useState, SyntheticEvent, useEffect, useRef } from 'react';
-import Results from '../../components/results/Results';
 import ResultsList from '../../components/resultsList/ResultsList';
 import { PlanetCharacteristics } from '../../common/types/types';
 import { getBaseUrl, normalizeData } from '../../common/utils/utils';
@@ -102,11 +101,10 @@ const PlanetsSearch = () => {
 
   return (
     <>
-      <div className={classes.SearchSection}>
+      <div className={classes.SearchSection} data-theme-element="true">
         <SearchForm handleSubmit={handleSubmit} />
         <CreateErrorButton />
       </div>
-      <Results />
       {state.requestError.length ? (
         <div className={classes.errorMessage}>{state.requestError}</div>
       ) : null}

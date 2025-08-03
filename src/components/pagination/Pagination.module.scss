@@ -1,16 +1,33 @@
-.pagination {
+.container {
   width: 80%;
+  min-height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flyout {
+  width: 50%;  
+}
+.pagination {
+  width: 50%;
   display: flex;
   justify-content: end;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 10px;
 }
 
 .pageNumber {
   margin: 0 5px;
-  padding: 5px 10px;
+  padding: 5px;
   border-radius: 5px;
   background-color: chocolate;
   color: #213547;
   font-weight: bold;
+}
+.button {
+  border: none;
+  &:focus,
+  :focus-visible {
+    outline: none;
+  }
+  font-size: 14px;
 }

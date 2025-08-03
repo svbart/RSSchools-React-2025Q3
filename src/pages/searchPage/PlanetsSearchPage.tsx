@@ -6,8 +6,8 @@ import classes from './PlanetsSearchPage.module.scss';
 const PlanetsSearchPage = () => {
   return (
     <Layout>
-      <Navigation />
       <h1 className={classes.header}>Star Wars Planets</h1>
+      <Navigation />
       <PlanetsSearch />
     </Layout>
   );
