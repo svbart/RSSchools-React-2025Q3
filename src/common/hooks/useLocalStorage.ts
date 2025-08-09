@@ -7,7 +7,7 @@ export function useLocalStorage(): [string, (search: string) => void] {
 
   const setSavedSearch = (searchString: string) => {
     localStorage.setItem('searchString', searchString);
-    setValue(searchString);
+    setValue(searchString || '');
   };
   return [savedSearch, setSavedSearch];
 }
