@@ -1,7 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { PlanetCharacteristics } from '../common/types/types';
-import { getIdFromUrl } from '../common/utils/utils';
+import { normalizeData } from '../common/utils/utils';
+
+export interface PlanetsResponseFromServer {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Record<string, string>[];
+}
 
 export interface PlanetsResponse {
   count: number;
@@ -27,7 +33,8 @@ export const planetsApi = createApi({
       {
         pageNumber: number;
         searchValue: string;
-      }
+      },
+      PlanetsResponseFromServer
     >({
       query: ({ pageNumber, searchValue }) => {
         return {
@@ -37,6 +44,12 @@ export const planetsApi = createApi({
           },
         };
       },
+      transformResponse: (
+        response: PlanetsResponseFromServer
+      ): PlanetsResponse => ({
+        ...response,
+        results: normalizeData(response.results),
+      }),
     }),
   }),
 });

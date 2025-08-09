@@ -5,10 +5,10 @@ import CreateErrorButton from '../../components/createErrorButton/CreateErrorBut
 import Pagination from '../../components/pagination/Pagination';
 import Spinner from '../../common/spinner/Spinner';
 import { Outlet, useSearchParams } from 'react-router';
-import classes from './PlanetsSearch.module.scss';
 import { useLocalStorage } from '../../common/hooks/useLocalStorage';
 import { useGetPlanetsByPageQuery } from '../../sevices/planetsApi';
 import { ShowDetailsContext } from '../../contexts/showDetailsContext';
+import classes from './PlanetsSearch.module.scss';
 
 const PlanetsSearch = () => {
   const [savedSearch, setSavedSearch] = useLocalStorage();
