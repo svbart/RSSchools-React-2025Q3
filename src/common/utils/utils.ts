@@ -19,6 +19,24 @@ export const normalizeData = <T extends Record<string, string>>(
     return normalizedPlanet as PlanetCharacteristics;
   });
 };
+export const normalizePlanet = <T extends Record<string, string>>(
+  data: T
+): PlanetCharacteristics => {
+  if (!data) return {} as PlanetCharacteristics;
+  const normalizedPlanet: Partial<PlanetCharacteristics> = {};
+  Object.keys(data).forEach((key) => {
+    if (key.includes('_')) {
+      const index = key.indexOf('_');
+      const newKey: keyof PlanetCharacteristics = (key.slice(0, index) +
+        key.charAt(index + 1).toUpperCase() +
+        key.slice(index + 2)) as keyof PlanetCharacteristics;
+      normalizedPlanet[newKey] = data[key];
+    } else {
+      normalizedPlanet[key as keyof PlanetCharacteristics] = data[key];
+    }
+  });
+  return normalizedPlanet as PlanetCharacteristics;
+};
 
 export const getIdFromUrl = (url?: string) => {
   if (!url) return NaN;

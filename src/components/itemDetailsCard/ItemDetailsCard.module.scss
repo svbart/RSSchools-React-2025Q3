@@ -19,6 +19,7 @@
 }
 
 .detailsContent {
+  height: 100%;
   padding: 10px 15px;
   color: #654321;
 
@@ -33,4 +34,7 @@
       border-bottom: none;
     }
   }
+}
+.fetching {
+  color: var(--fetching-color);
 }

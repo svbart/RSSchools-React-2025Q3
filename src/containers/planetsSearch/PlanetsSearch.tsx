@@ -17,7 +17,7 @@ const PlanetsSearch = () => {
   const searchValue = searchParams.get('search') || savedSearch || '';
   const pageNumber = Number(searchParams.get('page')) || 1;
 
-  const { isLoading, isError, isSuccess, data, refetch } =
+  const { isLoading, isError, isFetching, isSuccess, data, refetch } =
     useGetPlanetsByPageQuery({
       pageNumber,
       searchValue,
@@ -37,7 +37,12 @@ const PlanetsSearch = () => {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <>
+        <div>Loading...</div>
+        <Spinner />
+      </>
+    );
   }
 
   if (isError) {
@@ -51,6 +56,11 @@ const PlanetsSearch = () => {
   if (isSuccess) {
     return (
       <>
+        {isFetching && (
+          <>
+            <div>Fetching...</div>
+          </>
+        )}
         <div className={classes.SearchSection} data-theme-element="true">
           <SearchForm handleSubmit={handleSubmit} initialValue={searchValue} />
           <CreateErrorButton />

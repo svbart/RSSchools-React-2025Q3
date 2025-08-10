@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { PlanetCharacteristics } from '../common/types/types';
-import { normalizeData } from '../common/utils/utils';
+import { normalizeData, normalizePlanet } from '../common/utils/utils';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 export interface PlanetsResponseFromServer {
@@ -70,9 +70,9 @@ export const planetsApi = createApi({
   keepUnusedDataFor: 80,
   endpoints: (build) => ({
     getPlanetById: build.query<
-      PlanetsResponse,
+      PlanetCharacteristics,
       number,
-      PlanetsResponseFromServer
+      Record<string, string>
     >({
       query: (id) => {
         if (id === 0) {
@@ -81,18 +81,10 @@ export const planetsApi = createApi({
         return `${id}`;
       },
       transformResponse: (
-        response: PlanetsResponseFromServer
-      ): PlanetsResponse => ({
-        ...response,
-        results: normalizeData(response.results),
-      }),
+        response: Record<string, string>
+      ): PlanetCharacteristics => normalizePlanet(response),
       keepUnusedDataFor: 100,
-      providesTags: (_, error) => {
-        if (error) {
-          return [];
-        }
-        return [{ type: 'Planet', id: 'ITEM' }];
-      },
+      providesTags: (_, error, id) => (error ? [] : [{ type: 'Planet', id }]),
     }),
     getPlanetsByPage: build.query<
       PlanetsResponse,

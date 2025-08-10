@@ -1,30 +1,17 @@
-import { FC, useEffect, useState } from 'react';
-import { PlanetCharacteristics } from '../../common/types/types';
-import classes from './ItemDetailsCard.module.scss';
 import Spinner from '../../common/spinner/Spinner';
 import { useParams } from 'react-router';
 import CloseItemDetailsButton from '../closeItemDetailsButton/closeItemDetailsButton';
+import { useGetPlanetByIdQuery } from '../../services/planetsApi';
+import classes from './ItemDetailsCard.module.scss';
 
-const ItemDetailsCard: FC = () => {
-  const { id } = useParams();
-  const [data, setData] = useState<PlanetCharacteristics | null>(null);
+const ItemDetailsCard = () => {
+  const id = useParams<{ id: string }>().id;
+  const planetId = id ? Number(id) : 0;
+  const { isLoading, isFetching, data } = useGetPlanetByIdQuery(planetId);
 
-  useEffect(() => {
-    if (!id) return;
-    setData(null);
-    const fetchData = async (id: number) => {
-      try {
-        const response = await fetch(
-          `https://swapi.py4e.com/api/planets/${id}/`
-        );
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching planet data:', error);
-      }
-    };
-    fetchData(Number(id));
-  }, [id]);
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
@@ -34,9 +21,12 @@ const ItemDetailsCard: FC = () => {
         </div>
       </div>
       <div className={classes.detailsContent} data-theme-element="true">
-        {!data ? (
-          <Spinner />
-        ) : (
+        {isFetching && (
+          <>
+            <div className={classes.fetching}>Fetching...</div>
+          </>
+        )}
+        {!isFetching && data ? (
           <>
             <div>Planet: {data.name}</div>
             <div>Population: {data.population}</div>
@@ -45,6 +35,8 @@ const ItemDetailsCard: FC = () => {
             <div>Gravity: {data.gravity}</div>
             <div>Diameter: {data.diameter}</div>
           </>
+        ) : (
+          <Spinner />
         )}
       </div>
     </>

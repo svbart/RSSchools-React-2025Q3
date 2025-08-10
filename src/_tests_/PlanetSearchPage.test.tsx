@@ -21,8 +21,5 @@ describe('PlanetsSearchPage component', () => {
 
     expect(screen.getByRole('link', { name: /homepage/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument();
-
-    // const searchInput = screen.getByPlaceholderText(/search/i);
-    // expect(searchInput).toBeInTheDocument();
   });
 });

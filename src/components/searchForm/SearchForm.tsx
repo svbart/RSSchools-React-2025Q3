@@ -1,7 +1,6 @@
-import { FC, SyntheticEvent } from 'react';
+import { FC } from 'react';
 import SearchButton from '../searchButton/SearchButton';
 import classes from './SearchForm.module.scss';
-// import { useLocalStorage } from '../../common/hooks/useLocalStorage';
 
 export interface ISearchFormProps {
   handleSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void;
@@ -9,7 +8,6 @@ export interface ISearchFormProps {
 }
 
 const SearchForm: FC<ISearchFormProps> = ({ handleSubmit, initialValue }) => {
-  // const [savedSearch] = useLocalStorage();
   return (
     <form onSubmit={handleSubmit}>
       <input

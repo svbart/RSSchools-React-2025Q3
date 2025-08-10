@@ -12,16 +12,15 @@ interface ResultsListProps {
 }
 
 const Card: FC<ResultsListProps> = ({ planet, setSelectedPlanetId }) => {
+  const id = getIdFromUrl(planet.url);
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const { selectedItems } = useAppSelector((state) => state.app);
   const isSelected = selectedItems.some((item) => item.url === planet.url);
 
   const handleClick = (_event: SyntheticEvent) => {
-    const id = getIdFromUrl(planet.url);
     setSelectedPlanetId(Number(id));
   };
-  const id = getIdFromUrl(planet.url);
   const newSearch = `/planets/${id}/?search=${searchParams.get('search') || ''}&page=${searchParams.get('page')}`;
 
   const handleCheckboxChange = (event: MouseEvent<HTMLInputElement>) => {
