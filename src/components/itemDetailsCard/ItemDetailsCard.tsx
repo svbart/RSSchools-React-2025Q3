@@ -1,16 +1,28 @@
 import Spinner from '../../common/spinner/Spinner';
 import { useParams } from 'react-router';
 import CloseItemDetailsButton from '../closeItemDetailsButton/closeItemDetailsButton';
-import { useGetPlanetByIdQuery } from '../../services/planetsApi';
+import {
+  ExtendedFetchBaseQueryError,
+  useGetPlanetByIdQuery,
+} from '../../services/planetsApi';
 import classes from './ItemDetailsCard.module.scss';
 
 const ItemDetailsCard = () => {
   const id = useParams<{ id: string }>().id;
   const planetId = id ? Number(id) : 0;
-  const { isLoading, isFetching, data } = useGetPlanetByIdQuery(planetId);
+  const { isLoading, isError, error, isFetching, data } =
+    useGetPlanetByIdQuery(planetId);
 
   if (isLoading) {
     return <Spinner />;
+  }
+  if (isError) {
+    return (
+      <div role="alert" className={classes.errorMessage}>
+        {(error as ExtendedFetchBaseQueryError).message} occurred while fetching
+        data
+      </div>
+    );
   }
 
   return (
