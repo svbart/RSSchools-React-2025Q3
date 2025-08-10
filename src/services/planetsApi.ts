@@ -21,7 +21,9 @@ const rawBaseQuery = fetchBaseQuery({
   baseUrl: `https://swapi.py4e.com/api/planets`,
 });
 
-type ExtendedFetchBaseQueryError = FetchBaseQueryError & { message: string };
+export type ExtendedFetchBaseQueryError = FetchBaseQueryError & {
+  message: string;
+};
 
 const baseQueryWithErrorHandling: typeof rawBaseQuery = async (
   args,
@@ -32,7 +34,7 @@ const baseQueryWithErrorHandling: typeof rawBaseQuery = async (
 
   if (result.error) {
     const err = result.error as FetchBaseQueryError;
-    let message = 'Unknown error occurred';
+    let message = 'UNKNOWN ERROR OCCURRED';
 
     if ('status' in err) {
       if (typeof err.data === 'string') {
@@ -44,7 +46,7 @@ const baseQueryWithErrorHandling: typeof rawBaseQuery = async (
       ) {
         message = err.data.detail as string;
       } else {
-        message = 'Data loading error';
+        message = 'DATA LOADING ERROR';
       }
     }
 

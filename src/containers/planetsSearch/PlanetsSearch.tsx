@@ -6,7 +6,10 @@ import Pagination from '../../components/pagination/Pagination';
 import Spinner from '../../common/spinner/Spinner';
 import { Outlet, useSearchParams } from 'react-router';
 import { useLocalStorage } from '../../common/hooks/useLocalStorage';
-import { useGetPlanetsByPageQuery } from '../../services/planetsApi';
+import {
+  ExtendedFetchBaseQueryError,
+  useGetPlanetsByPageQuery,
+} from '../../services/planetsApi';
 import { ShowDetailsContext } from '../../contexts/showDetailsContext';
 import classes from './PlanetsSearch.module.scss';
 
@@ -17,7 +20,7 @@ const PlanetsSearch = () => {
   const searchValue = searchParams.get('search') || savedSearch || '';
   const pageNumber = Number(searchParams.get('page')) || 1;
 
-  const { isLoading, isError, isFetching, isSuccess, data, refetch } =
+  const { isLoading, isError, error, isFetching, isSuccess, data, refetch } =
     useGetPlanetsByPageQuery({
       pageNumber,
       searchValue,
@@ -48,7 +51,8 @@ const PlanetsSearch = () => {
   if (isError) {
     return (
       <div className={classes.errorMessage}>
-        An error occurred while fetching data. Please try again later.
+        {(error as ExtendedFetchBaseQueryError).message} occurred while fetching
+        data
       </div>
     );
   }
