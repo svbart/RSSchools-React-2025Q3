@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import appReducer from './storeSlices/app-reducer';
-import { planetsApi } from '../sevices/planetsApi';
+import { planetsApi } from '../services/planetsApi';
 
 export const store = configureStore({
   reducer: {

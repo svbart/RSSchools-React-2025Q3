@@ -6,7 +6,7 @@ import Pagination from '../../components/pagination/Pagination';
 import Spinner from '../../common/spinner/Spinner';
 import { Outlet, useSearchParams } from 'react-router';
 import { useLocalStorage } from '../../common/hooks/useLocalStorage';
-import { useGetPlanetsByPageQuery } from '../../sevices/planetsApi';
+import { useGetPlanetsByPageQuery } from '../../services/planetsApi';
 import { ShowDetailsContext } from '../../contexts/showDetailsContext';
 import classes from './PlanetsSearch.module.scss';
 
@@ -17,10 +17,11 @@ const PlanetsSearch = () => {
   const searchValue = searchParams.get('search') || savedSearch || '';
   const pageNumber = Number(searchParams.get('page')) || 1;
 
-  const { isLoading, isError, isSuccess, data } = useGetPlanetsByPageQuery({
-    pageNumber,
-    searchValue,
-  });
+  const { isLoading, isError, isSuccess, data, refetch } =
+    useGetPlanetsByPageQuery({
+      pageNumber,
+      searchValue,
+    });
 
   const [selectedPlanetId, setSelectedPlanetId] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -53,6 +54,9 @@ const PlanetsSearch = () => {
         <div className={classes.SearchSection} data-theme-element="true">
           <SearchForm handleSubmit={handleSubmit} initialValue={searchValue} />
           <CreateErrorButton />
+          <button data-testid="refetch-btn" onClick={() => refetch()}>
+            Refresh
+          </button>
         </div>
 
         {data.results && data.results.length < 1 ? (
