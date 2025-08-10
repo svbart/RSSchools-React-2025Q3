@@ -56,11 +56,6 @@ const PlanetsSearch = () => {
   if (isSuccess) {
     return (
       <>
-        {isFetching && (
-          <>
-            <div>Fetching...</div>
-          </>
-        )}
         <div className={classes.SearchSection} data-theme-element="true">
           <SearchForm handleSubmit={handleSubmit} initialValue={searchValue} />
           <CreateErrorButton />
@@ -68,6 +63,11 @@ const PlanetsSearch = () => {
             Refresh
           </button>
         </div>
+        {isFetching && (
+          <>
+            <div className={classes.fetching}>Fetching...</div>
+          </>
+        )}
 
         {data.results && data.results.length < 1 ? (
           <div className={classes.searchInfo}>
