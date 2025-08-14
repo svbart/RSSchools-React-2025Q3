@@ -8,12 +8,15 @@ import { Outlet, useSearchParams } from 'react-router';
 import { useLocalStorage } from '../../common/hooks/useLocalStorage';
 import {
   ExtendedFetchBaseQueryError,
+  planetsApi,
   useGetPlanetsByPageQuery,
 } from '../../services/planetsApi';
 import { ShowDetailsContext } from '../../contexts/showDetailsContext';
 import classes from './PlanetsSearch.module.scss';
+import { useAppDispatch } from '../../store/hooks';
 
 const PlanetsSearch = () => {
+  const { dispatch } = useAppDispatch();
   const [savedSearch, setSavedSearch] = useLocalStorage();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,6 +40,11 @@ const PlanetsSearch = () => {
     setSearchParams({ search: value, page: '1' });
     setSavedSearch(value);
     setSelectedPlanetId(null);
+  };
+
+  const onRefreshButtonClick = () => {
+    dispatch(planetsApi.util.invalidateTags([{ type: 'Planets', id: 'LIST' }]));
+    refetch();
   };
 
   if (isLoading) {
@@ -63,7 +71,7 @@ const PlanetsSearch = () => {
         <div className={classes.SearchSection} data-theme-element="true">
           <SearchForm handleSubmit={handleSubmit} initialValue={searchValue} />
           <CreateErrorButton />
-          <button data-testid="refetch-btn" onClick={() => refetch()}>
+          <button data-testid="refetch-btn" onClick={onRefreshButtonClick}>
             Refresh
           </button>
         </div>
