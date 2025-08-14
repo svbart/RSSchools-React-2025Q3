@@ -16,7 +16,7 @@ import classes from './PlanetsSearch.module.scss';
 import { useAppDispatch } from '../../store/hooks';
 
 const PlanetsSearch = () => {
-  const { dispatch } = useAppDispatch();
+  const dispatch = useAppDispatch();
   const [savedSearch, setSavedSearch] = useLocalStorage();
   const [searchParams, setSearchParams] = useSearchParams();
 
