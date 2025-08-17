@@ -5,7 +5,7 @@ import PlanetsSearchPage from './pages/searchPage/PlanetsSearchPage';
 import NotFoundPage from './pages/notFoundPage/NotFoundPage';
 import AboutPage from './pages/aboutPage/AboutPage';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from './contexts/themeContext';
+import { ThemeProvider } from './contexts/themeProvider';
 import { store } from './store/store';
 
 const App = () => {

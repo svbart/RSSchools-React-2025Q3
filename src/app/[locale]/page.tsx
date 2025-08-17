@@ -1,6 +1,6 @@
 'use client';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from '../../contexts/themeContext';
+import { ThemeProvider } from '../../contexts/themeProvider';
 import PlanetsSearchPage from '../../pages/searchPage/PlanetsSearchPage';
 import { store } from '../../store/store';
 import AboutPage from './AboutPage';

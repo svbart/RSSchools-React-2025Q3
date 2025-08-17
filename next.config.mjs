@@ -10,12 +10,34 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  // Включаем статический экспорт только для production
-  ...(process.env.NODE_ENV === 'production' && {
+    // ✅ Конфигурация для RSC с интернационализацией
+  experimental: {
+    serverComponentsExternalPackages: ['redux', '@reduxjs/toolkit'],
+  },
+  images: {
+    domains: ['example.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+  // ✅ Оставьте только для production статики (если нужно)
+  ...(process.env.DEPLOY_TARGET === 'static' && {
     output: 'export',
     distDir: './dist',
-    basePath: process.env.NEXT_PUBLIC_BASE_PATH,
+    trailingSlash: true,
+    images: {
+      unoptimized: true, // Требуется для статического экспорта
+    },
   }),
+  // Включаем статический экспорт только для production
+  // ...(process.env.NODE_ENV === 'production' && {
+  //   output: 'export',
+  //   distDir: './dist',
+  //   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
+  // }),
 };
 
 export default nextConfig;

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ThemeProvider, ThemeContext } from '../contexts/themeContext';
+import { ThemeProvider, ThemeContext } from '../contexts/themeProvider';
 
 const TestComponent = () => {
   const context = useContext(ThemeContext);

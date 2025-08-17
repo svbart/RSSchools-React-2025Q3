@@ -1,17 +1,17 @@
-import { Metadata } from 'next';
+// import { Metadata } from 'next';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
-import { ThemeProvider } from '../contexts/themeContext';
+import { ThemeProvider } from '../contexts/themeProvider';
 import Layout from '../hoc/layout/Layout';
 
 // interface RootLayoutProps {
 //   children: ReactNode | ReactNode[];
 // }
-export const metadata: Metadata = {
-  title: 'React + TS + Next.js',
-  description: 'My App is a...',
-};
+// export const metadata: Metadata = {
+//   title: 'React + TS + Next.js',
+//   description: 'My App is a...',
+// };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
