@@ -8,10 +8,10 @@ import classes from './Card.module.scss';
 
 interface ResultsListProps {
   planet: PlanetCharacteristics;
-  setSelectedPlanetId: React.Dispatch<React.SetStateAction<number | null>>;
+  handlePlanetSelect: (planetId: number) => void;
 }
 
-const Card: FC<ResultsListProps> = ({ planet, setSelectedPlanetId }) => {
+const Card: FC<ResultsListProps> = ({ planet, handlePlanetSelect }) => {
   const id = getIdFromUrl(planet.url);
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ const Card: FC<ResultsListProps> = ({ planet, setSelectedPlanetId }) => {
   const isSelected = selectedItems.some((item) => item.url === planet.url);
 
   const handleClick = (_event: SyntheticEvent) => {
-    setSelectedPlanetId(Number(id));
+    handlePlanetSelect(Number(id));
   };
   const newSearch = `/planets/${id}/?search=${searchParams.get('search') || ''}&page=${searchParams.get('page')}`;
 

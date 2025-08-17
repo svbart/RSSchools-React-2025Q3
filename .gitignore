@@ -36,3 +36,8 @@ lcov-report/
 .cache/
 .vite/
 .vitest/
+
+# Next.js build output
+.next
+next-env.d.ts
+dist

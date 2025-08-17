@@ -6,7 +6,9 @@ interface LayoutProps {
 }
 const Layout: FC<LayoutProps> = ({ children }) => (
   <div className={classes.Layout}>
-    <main className={classes.main}>{children}</main>
+    <main id="root" className={classes.main}>
+      {children}
+    </main>
   </div>
 );
 

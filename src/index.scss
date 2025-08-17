@@ -6,10 +6,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-    --bg-color: white;
-    --text-color: black;
+  --bg-color: white;
+  --text-color: black;
 }
-
 
 .dark {
   --bg-color: burlywood;
@@ -19,7 +18,6 @@
   --border-color: chocolate;
   --btn-hover-color: rgb(209, 159, 93);
   --bg-image: url('./assets/images/milkyWay.jpg');
-  
 }
 
 .light {
@@ -32,7 +30,6 @@
   --bg-image: url('./assets/images/light1.jpg');
 }
 
-
 a {
   font-weight: 500;
   color: var(--link-color);
@@ -41,7 +38,7 @@ a {
 a:hover {
   color: var(--link-color);
 }
-main{
+main {
   background-image: var(--bg-image);
 }
 
@@ -54,7 +51,9 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   background-image: var(--bg-image);
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 h1 {
@@ -63,20 +62,22 @@ h1 {
 }
 
 p {
- margin: 0;
+  margin: 0;
 }
-[data-theme-element="true"] {
+[data-theme-element='true'] {
   border-color: var(--border-color);
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
- div{
+div {
   box-sizing: border-box;
   margin: 0;
-  padding: 0; 
+  padding: 0;
   border: none;
- }
+}
 
 button {
   border-radius: 8px;
@@ -96,4 +97,3 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-

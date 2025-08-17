@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import ErrorBoundary from '../hoc/errorBoundary/ErrorBoundary';
+import ErrorBoundary from '../components/ErrorBoundaryFallback/ErrorBoundaryFallback';
 
 function ErrorChild() {
   throw new Error('Test error');

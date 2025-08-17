@@ -1,4 +1,4 @@
-import ErrorBoundary from './hoc/errorBoundary/ErrorBoundary';
+import ErrorBoundary from './components/ErrorBoundaryFallback/ErrorBoundaryFallback';
 import { Route, Routes } from 'react-router';
 import ItemDetailsCard from './components/itemDetailsCard/ItemDetailsCard';
 import PlanetsSearchPage from './pages/searchPage/PlanetsSearchPage';
