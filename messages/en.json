@@ -2,7 +2,9 @@
   "navigation": {
     "home": "Home",
     "search": "Search",
-    "about": "About"
+    "about": "About",
+    "previous": "Previous",
+    "next": "Next"
   },
   "search": {
     "title": "Planet Search",

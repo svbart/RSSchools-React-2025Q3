@@ -2,7 +2,9 @@
   "navigation": {
     "home": "Главная",
     "search": "Поиск",
-    "about": "О нас"
+    "about": "О нас",
+    "previous": "Назад",
+    "next": "Далее"
   },
   "search": {
     "title": "Поиск планет",
