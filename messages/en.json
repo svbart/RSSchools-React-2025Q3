@@ -1,0 +1,39 @@
+{
+  "navigation": {
+    "home": "Home",
+    "search": "Search",
+    "about": "About"
+  },
+  "search": {
+    "title": "Planet Search",
+    "placeholder": "Search planets...",
+    "searchButton": "Search",
+    "noResults": "No planets found",
+    "loading": "Loading...",
+    "error": "Error loading data"
+  },
+  "planet": {
+    "name": "Name",
+    "climate": "Climate",
+    "gravity": "Gravity",
+    "terrain": "Terrain",
+    "population": "Population",
+    "diameter": "Diameter"
+  },
+  "about": {
+    "title": "About",
+    "description": "This application allows you to search for planets from the Star Wars universe."
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist.",
+    "backHome": "Back to Home"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "download": {
+    "csv": "Download CSV"
+  }
+}

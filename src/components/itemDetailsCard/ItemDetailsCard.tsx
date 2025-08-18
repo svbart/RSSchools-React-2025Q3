@@ -116,6 +116,7 @@
 // export default ItemDetailsCard;
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Spinner from '../../common/spinner/Spinner';
 import CloseItemDetailsButton from '../closeItemDetailsButton/closeItemDetailsButton';
 import {
@@ -129,6 +130,7 @@ interface ItemDetailsCardProps {
 }
 
 const ItemDetailsCard = ({ planetId }: ItemDetailsCardProps) => {
+  const t = useTranslations('planet');
   const { isLoading, isError, error, isFetching, data } =
     useGetPlanetByIdQuery(planetId);
 
@@ -156,12 +158,24 @@ const ItemDetailsCard = ({ planetId }: ItemDetailsCardProps) => {
         {isFetching && <div className={classes.fetching}>Fetching...</div>}
         {!isFetching && data ? (
           <>
-            <div>Planet: {data.name}</div>
-            <div>Population: {data.population}</div>
-            <div>Terrain: {data.terrain}</div>
-            <div>Climate: {data.climate}</div>
-            <div>Gravity: {data.gravity}</div>
-            <div>Diameter: {data.diameter}</div>
+            <div>
+              {t('name')}: {data.name}
+            </div>
+            <div>
+              {t('population')}: {data.population}
+            </div>
+            <div>
+              {t('terrain')}: {data.terrain}
+            </div>
+            <div>
+              {t('climate')}: {data.climate}
+            </div>
+            <div>
+              {t('gravity')}: {data.gravity}
+            </div>
+            <div>
+              {t('diameter')}: {data.diameter}
+            </div>
           </>
         ) : (
           !isFetching && <Spinner />

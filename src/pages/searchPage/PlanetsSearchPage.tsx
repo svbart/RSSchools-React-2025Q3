@@ -1,15 +1,17 @@
-// import Navigation from '../../components/navigation/Navigation';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import PlanetsSearch from '../../containers/planetsSearch/PlanetsSearch';
-import Layout from '../../hoc/layout/Layout';
 import classes from './PlanetsSearchPage.module.scss';
 
 const PlanetsSearchPage = () => {
+  const t = useTranslations('search');
+
   return (
-    <Layout>
-      <h1 className={classes.header}>Star Wars Planets</h1>
-      {/* <Navigation /> */}
+    <div>
+      <h1 className={classes.header}>{t('title')}</h1>
       <PlanetsSearch />
-    </Layout>
+    </div>
   );
 };
 

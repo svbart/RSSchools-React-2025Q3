@@ -1,7 +1,7 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
+import { createContext } from 'react';
 
-interface IShowDetailsContext {
-  setSelectedPlanetId: Dispatch<SetStateAction<number | null>>;
+export interface IShowDetailsContext {
+  setSelectedPlanetId: () => void;
 }
 
 export const ShowDetailsContext = createContext<IShowDetailsContext | null>(

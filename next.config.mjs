@@ -1,16 +1,10 @@
-// /** @type {import('next').NextConfig} */
+import createNextIntlPlugin from 'next-intl/plugin';
 
-// const nextConfig = {
-//   output: 'export', // Outputs a Single-Page Application (SPA).
-//   distDir: './dist', // Changes the build output directory to `./dist/`.
-//   basePath: process.env.NEXT_PUBLIC_BASE_PATH, // Sets the base path to `/some-base-path`.
-// }
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
-// export default nextConfig
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
-    // ✅ Конфигурация для RSC с интернационализацией
+  // ✅ Конфигурация для RSC с интернационализацией
   experimental: {
     serverComponentsExternalPackages: ['redux', '@reduxjs/toolkit'],
   },
@@ -32,12 +26,6 @@ const nextConfig = {
       unoptimized: true, // Требуется для статического экспорта
     },
   }),
-  // Включаем статический экспорт только для production
-  // ...(process.env.NODE_ENV === 'production' && {
-  //   output: 'export',
-  //   distDir: './dist',
-  //   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
-  // }),
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

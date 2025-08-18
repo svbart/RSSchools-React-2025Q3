@@ -1,22 +1,18 @@
+'use client';
+
 import { useContext } from 'react';
 import classes from './CloseItemDetailsButton.module.scss';
 import {
   IShowDetailsContext,
   ShowDetailsContext,
 } from '../../contexts/showDetailsContext';
-import { useNavigate, useSearchParams } from 'react-router';
 
 const CloseItemDetailsButton = () => {
   const context: IShowDetailsContext | null = useContext(ShowDetailsContext);
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const handleClose = () => {
-    if (context) {
-      context.setSelectedPlanetId(null);
-      navigate(
-        `/?search=${searchParams.get('search') || ''}&page=${searchParams.get('page') || '1'}`
-      );
+    if (context && context.setSelectedPlanetId) {
+      context.setSelectedPlanetId();
     }
   };
 

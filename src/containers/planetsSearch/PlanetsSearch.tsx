@@ -120,12 +120,12 @@
 
 'use client';
 
-import { SyntheticEvent, useRef, useState } from 'react';
+import { SyntheticEvent, useRef, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import ResultsList from '../../components/resultsList/ResultsList';
 import SearchForm from '../../components/searchForm/SearchForm';
 import CreateErrorButton from '../../components/createErrorButton/CreateErrorButton';
-// import Pagination from '../../components/pagination/Pagination';
 import Spinner from '../../common/spinner/Spinner';
 import { useLocalStorage } from '../../common/hooks/useLocalStorage';
 import {
@@ -139,6 +139,7 @@ import { useAppDispatch } from '../../store/hooks';
 import ItemDetailsCard from '../../components/itemDetailsCard/ItemDetailsCard';
 
 const PlanetsSearch = () => {
+  const t = useTranslations('search');
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [savedSearch, setSavedSearch] = useLocalStorage(`savedSearch`, '');
@@ -146,6 +147,7 @@ const PlanetsSearch = () => {
 
   const searchValue = searchParams?.get('search') || savedSearch || '';
   const pageNumber = Number(searchParams?.get('page')) || 1;
+  const planetIdFromUrl = searchParams?.get('planetId');
 
   const { isLoading, isError, error, isFetching, isSuccess, data, refetch } =
     useGetPlanetsByPageQuery({
@@ -155,6 +157,13 @@ const PlanetsSearch = () => {
 
   const [selectedPlanetId, setSelectedPlanetId] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
+
+  // Инициализация выбранной планеты из URL
+  useEffect(() => {
+    if (planetIdFromUrl && !selectedPlanetId) {
+      setSelectedPlanetId(Number(planetIdFromUrl));
+    }
+  }, [planetIdFromUrl, selectedPlanetId]);
 
   const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -195,7 +204,7 @@ const PlanetsSearch = () => {
   if (isLoading) {
     return (
       <>
-        <div>Loading...</div>
+        <div>{t('loading')}</div>
         <Spinner />
       </>
     );
@@ -204,8 +213,7 @@ const PlanetsSearch = () => {
   if (isError) {
     return (
       <div className={classes.errorMessage}>
-        {(error as ExtendedFetchBaseQueryError).message} occurred while fetching
-        data
+        {t('error')}: {(error as ExtendedFetchBaseQueryError).message}
       </div>
     );
   }
@@ -221,12 +229,10 @@ const PlanetsSearch = () => {
           </button>
         </div>
 
-        {isFetching && <div className={classes.fetching}>Fetching...</div>}
+        {isFetching && <div className={classes.fetching}>{t('loading')}</div>}
 
         {data.results && data.results.length < 1 ? (
-          <div className={classes.searchInfo}>
-            Oops, we couldn&apos;t find anything
-          </div>
+          <div className={classes.searchInfo}>{t('noResults')}</div>
         ) : (
           <>
             {/* <Pagination thereIsNext={Boolean(data.next)} /> */}

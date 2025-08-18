@@ -1,5 +1,11 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+
 const SearchButton = () => {
-  return <button type="submit">Search</button>;
+  const t = useTranslations('search');
+
+  return <button type="submit">{t('searchButton')}</button>;
 };
 
 export default SearchButton;
