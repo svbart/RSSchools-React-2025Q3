@@ -3,38 +3,53 @@
 import { SyntheticEvent, useRef, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import ResultsList from '../../components/resultsList/ResultsList';
 import SearchForm from '../../components/searchForm/SearchForm';
 import CreateErrorButton from '../../components/createErrorButton/CreateErrorButton';
 import Pagination from '../../components/pagination/Pagination';
 import Spinner from '../../common/spinner/Spinner';
 import { useLocalStorage } from '../../common/hooks/useLocalStorage';
-import {
-  ExtendedFetchBaseQueryError,
-  planetsApi,
-  useGetPlanetsByPageQuery,
-} from '../../services/planetsApi';
 import { ShowDetailsContext } from '../../contexts/showDetailsContext';
+import { PlanetCharacteristics } from '../../common/types/types';
 import classes from './PlanetsSearch.module.scss';
-import { useAppDispatch } from '../../store/hooks';
-import ItemDetailsCard from '../../components/itemDetailsCard/ItemDetailsCard';
 
-const PlanetsSearch = () => {
+// Динамический импорт для ItemDetailsCard
+const ItemDetailsCard = dynamic(
+  () => import('../../components/itemDetailsCard/ItemDetailsCard'),
+  { ssr: false }
+);
+
+interface PlanetsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: PlanetCharacteristics[];
+}
+
+interface PlanetsSearchProps {
+  initialData: PlanetsResponse;
+  initialPage: number;
+  initialSearch: string;
+}
+
+const PlanetsSearch = ({
+  initialData,
+  initialPage,
+  initialSearch,
+}: PlanetsSearchProps) => {
   const t = useTranslations('search');
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [savedSearch, setSavedSearch] = useLocalStorage(`savedSearch`, '');
   const searchParams = useSearchParams();
 
-  const searchValue = searchParams?.get('search') || savedSearch || '';
-  const pageNumber = Number(searchParams?.get('page')) || 1;
-  const planetIdFromUrl = searchParams?.get('planetId');
+  const [data] = useState<PlanetsResponse>(initialData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error] = useState<string | null>(null);
 
-  const { isLoading, isError, error, isFetching, isSuccess, data, refetch } =
-    useGetPlanetsByPageQuery({
-      pageNumber,
-      searchValue,
-    });
+  const searchValue = searchParams?.get('search') || savedSearch || '';
+  const pageNumber = Number(searchParams?.get('page')) || initialPage;
+  const planetIdFromUrl = searchParams?.get('planetId');
 
   const [selectedPlanetId, setSelectedPlanetId] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -45,6 +60,15 @@ const PlanetsSearch = () => {
       setSelectedPlanetId(Number(planetIdFromUrl));
     }
   }, [planetIdFromUrl, selectedPlanetId]);
+
+  // Обновление данных при изменении URL параметров
+  useEffect(() => {
+    if (pageNumber !== initialPage || searchValue !== initialSearch) {
+      setIsLoading(true);
+      // Здесь будем вызывать роутер для обновления страницы с новыми параметрами
+      // Next.js автоматически перезагрузит серверный компонент
+    }
+  }, [pageNumber, searchValue, initialPage, initialSearch]);
 
   const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,8 +86,8 @@ const PlanetsSearch = () => {
   };
 
   const onRefreshButtonClick = () => {
-    dispatch(planetsApi.util.invalidateTags([{ type: 'Planets', id: 'LIST' }]));
-    refetch();
+    // Перезагружаем страницу для получения свежих данных
+    router.refresh();
   };
 
   const handlePlanetSelect = (planetId: number) => {
@@ -91,62 +115,56 @@ const PlanetsSearch = () => {
     );
   }
 
-  if (isError) {
+  if (error) {
     return (
       <div className={classes.errorMessage}>
-        {t('error')}: {(error as ExtendedFetchBaseQueryError).message}
+        {t('error')}: {error}
       </div>
     );
   }
 
-  if (isSuccess) {
-    return (
-      <>
-        <div className={classes.SearchSection} data-theme-element="true">
-          <SearchForm handleSubmit={handleSubmit} initialValue={searchValue} />
-          <CreateErrorButton />
-          <button data-testid="refetch-btn" onClick={onRefreshButtonClick}>
-            Refresh
-          </button>
-        </div>
+  return (
+    <>
+      <div className={classes.SearchSection} data-theme-element="true">
+        <SearchForm handleSubmit={handleSubmit} initialValue={searchValue} />
+        <CreateErrorButton />
+        <button data-testid="refetch-btn" onClick={onRefreshButtonClick}>
+          Refresh
+        </button>
+      </div>
 
-        {isFetching && <div className={classes.fetching}>{t('loading')}</div>}
+      {data.results && data.results.length < 1 ? (
+        <div className={classes.searchInfo}>{t('noResults')}</div>
+      ) : (
+        <>
+          <Pagination thereIsNext={Boolean(data.next)} />
 
-        {data.results && data.results.length < 1 ? (
-          <div className={classes.searchInfo}>{t('noResults')}</div>
-        ) : (
-          <>
-            <Pagination thereIsNext={Boolean(data.next)} />
-
-            <div className={classes.resultsSection}>
-              <div
-                style={selectedPlanetId ? { width: '70%' } : { width: '100%' }}
-              >
-                <ResultsList
-                  planets={data.results}
-                  handlePlanetSelect={handlePlanetSelect}
-                />
-              </div>
-
-              {selectedPlanetId && (
-                <div id="details" ref={ref} className={classes.details}>
-                  <ShowDetailsContext.Provider
-                    value={{
-                      setSelectedPlanetId: handleCloseDetails,
-                    }}
-                  >
-                    <ItemDetailsCard planetId={selectedPlanetId} />
-                  </ShowDetailsContext.Provider>
-                </div>
-              )}
+          <div className={classes.resultsSection}>
+            <div
+              style={selectedPlanetId ? { width: '70%' } : { width: '100%' }}
+            >
+              <ResultsList
+                planets={data.results}
+                handlePlanetSelect={handlePlanetSelect}
+              />
             </div>
-          </>
-        )}
-      </>
-    );
-  }
 
-  return null;
+            {selectedPlanetId && (
+              <div id="details" ref={ref} className={classes.details}>
+                <ShowDetailsContext.Provider
+                  value={{
+                    setSelectedPlanetId: handleCloseDetails,
+                  }}
+                >
+                  <ItemDetailsCard planetId={selectedPlanetId} />
+                </ShowDetailsContext.Provider>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </>
+  );
 };
 
 export default PlanetsSearch;

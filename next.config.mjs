@@ -5,9 +5,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // ✅ Конфигурация для RSC с интернационализацией
-  experimental: {
-    serverComponentsExternalPackages: ['redux', '@reduxjs/toolkit'],
-  },
+  serverExternalPackages: ['redux', '@reduxjs/toolkit'],
   images: {
     domains: ['example.com'],
     remotePatterns: [
