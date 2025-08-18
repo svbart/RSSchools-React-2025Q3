@@ -8,7 +8,6 @@ import ResultsList from '../../components/resultsList/ResultsList';
 import SearchForm from '../../components/searchForm/SearchForm';
 import CreateErrorButton from '../../components/createErrorButton/CreateErrorButton';
 import Pagination from '../../components/pagination/Pagination';
-import Spinner from '../../common/spinner/Spinner';
 import { useLocalStorage } from '../../common/hooks/useLocalStorage';
 import { ShowDetailsContext } from '../../contexts/showDetailsContext';
 import { PlanetCharacteristics } from '../../common/types/types';
@@ -43,8 +42,8 @@ const PlanetsSearch = ({
   const [savedSearch, setSavedSearch] = useLocalStorage(`savedSearch`, '');
   const searchParams = useSearchParams();
 
-  const [data] = useState<PlanetsResponse>(initialData);
-  const [isLoading, setIsLoading] = useState(false);
+  // Используем данные напрямую из пропсов, а не из useState
+  const data = initialData;
   const [error] = useState<string | null>(null);
 
   const searchValue = searchParams?.get('search') || savedSearch || '';
@@ -64,8 +63,6 @@ const PlanetsSearch = ({
   // Обновление данных при изменении URL параметров
   useEffect(() => {
     if (pageNumber !== initialPage || searchValue !== initialSearch) {
-      setIsLoading(true);
-      // Здесь будем вызывать роутер для обновления страницы с новыми параметрами
       // Next.js автоматически перезагрузит серверный компонент
     }
   }, [pageNumber, searchValue, initialPage, initialSearch]);
@@ -105,15 +102,6 @@ const PlanetsSearch = ({
     params.delete('planetId');
     router.push(`?${params.toString()}`);
   };
-
-  if (isLoading) {
-    return (
-      <>
-        <div>{t('loading')}</div>
-        <Spinner />
-      </>
-    );
-  }
 
   if (error) {
     return (

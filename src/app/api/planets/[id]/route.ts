@@ -3,10 +3,11 @@ import { fetchPlanetById } from '../../../lib/planetsApi';
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = params.id;
+    const resolvedParams = await params;
+    const id = resolvedParams.id;
 
     if (!id || isNaN(Number(id))) {
       return NextResponse.json({ error: 'Invalid planet ID' }, { status: 400 });
