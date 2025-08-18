@@ -1,13 +1,8 @@
-import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '../../i18n/routing';
 import { ReactNode } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store';
-import { ThemeProvider } from '../../contexts/themeProvider';
-import Layout from '../../hoc/layout/Layout';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import ClientProviders from '../components/ClientProviders/ClientProviders';
 
 type Props = {
   children: ReactNode;
@@ -29,15 +24,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <Provider store={store}>
-            <ThemeProvider>
-              <ErrorBoundary>
-                <Layout>{children}</Layout>
-              </ErrorBoundary>
-            </ThemeProvider>
-          </Provider>
-        </NextIntlClientProvider>
+        <ClientProviders messages={messages} locale={locale}>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
