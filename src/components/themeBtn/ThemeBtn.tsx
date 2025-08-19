@@ -1,5 +1,7 @@
+'use client';
+
 import { useContext } from 'react';
-import { ThemeContext } from '../../contexts/themeProvider';
+import { ThemeContext } from '../../contexts/themeContext';
 import classes from './ThemeBtn.module.scss';
 
 const ThemeBtn = () => {

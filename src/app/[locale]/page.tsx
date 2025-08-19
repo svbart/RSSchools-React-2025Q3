@@ -17,13 +17,13 @@ export default async function HomePage({
   const planetsData = await fetchPlanets(page, search);
 
   return (
-    <div>
+    <>
       <h1 style={{ textAlign: 'center', margin: '20px 0' }}>{t('title')}</h1>
       <PlanetsSearch
         initialData={planetsData}
         initialPage={page}
         initialSearch={search}
       />
-    </div>
+    </>
   );
 }

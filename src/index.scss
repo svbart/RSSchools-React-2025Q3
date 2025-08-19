@@ -13,6 +13,7 @@
 .dark {
   --bg-color: burlywood;
   --text-color: #654321;
+  --text-color2: chocolate;
   --link-color: #654321;
   --fetching-color: rgb(37, 95, 129);
   --border-color: chocolate;
@@ -23,6 +24,7 @@
 .light {
   --bg-color: rgb(143, 190, 209);
   --text-color: black;
+  --text-color2: beige;
   --link-color: black;
   --fetching-color: #654321;
   --border-color: rgb(37, 95, 129);
@@ -59,6 +61,7 @@ body {
 h1 {
   font-size: 2.2em;
   line-height: 1.1;
+  color: var(--text-color2);
 }
 
 p {
