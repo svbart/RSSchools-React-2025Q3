@@ -1,45 +1,46 @@
 'use client';
 
-import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from '../../i18n/routing';
-import { startTransition } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
-  const router = useRouter();
+  const t = useTranslations('navigation');
   const pathname = usePathname();
 
-  const handleLocaleChange = (newLocale: string) => {
-    startTransition(() => {
-      router.replace(pathname, { locale: newLocale });
-    });
+  const getNewPath = (newLocale: string) => {
+    // Удаляем текущую локаль из пути
+    const pathWithoutLocale = pathname?.replace(/^\/(en|ru)/, '');
+    return `/${newLocale}${pathWithoutLocale}`;
+  };
+
+  const handleLanguageChange = (newLocale: string) => {
+    const newPath = getNewPath(newLocale);
+    // Принудительная перезагрузка для обновления локали
+    window.location.href = newPath;
   };
 
   return (
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-      <span>Language:</span>
+      <span>{t('language')}:</span>
       <button
-        onClick={() => handleLocaleChange('en')}
+        onClick={() => handleLanguageChange('en')}
         style={{
           padding: '4px 8px',
           backgroundColor: locale === 'en' ? '#0070f3' : 'transparent',
           color: locale === 'en' ? 'white' : 'inherit',
           border: '1px solid #0070f3',
-          borderRadius: '4px',
-          cursor: 'pointer',
         }}
       >
         EN
       </button>
       <button
-        onClick={() => handleLocaleChange('ru')}
+        onClick={() => handleLanguageChange('ru')}
         style={{
           padding: '4px 8px',
           backgroundColor: locale === 'ru' ? '#0070f3' : 'transparent',
           color: locale === 'ru' ? 'white' : 'inherit',
           border: '1px solid #0070f3',
-          borderRadius: '4px',
-          cursor: 'pointer',
         }}
       >
         RU

@@ -4,12 +4,14 @@
     "search": "Поиск",
     "about": "О нас",
     "previous": "Назад",
-    "next": "Далее"
+    "next": "Далее",
+    "language": "Язык"
   },
   "search": {
     "title": "Звездные войны: планеты",
     "placeholder": "Поиск планет...",
     "searchButton": "Поиск",
+    "refresh": "Обновить",
     "noResults": "Планеты не найдены",
     "loading": "Загрузка...",
     "error": "Ошибка загрузки данных"
@@ -20,11 +22,16 @@
     "gravity": "Гравитация",
     "terrain": "Рельеф",
     "population": "Население",
-    "diameter": "Диаметр"
+    "diameter": "Диаметр",
+    "orbitalPeriod": "Орбитальный период",
+    "rotationPeriod": "Период вращения",
+    "surfaceWater": "Поверхностная вода"
   },
   "about": {
-    "title": "О нас",
-    "description": "Это приложение позволяет искать планеты из вселенной Звездных войн."
+    "title": "О приложении",
+    "description": "Это приложение позволяет искать планеты из вселенной Звёздных войн.",
+    "author": "Автор: Светлана Барткевич",
+    "course": "КУРС REACT RSSCHOOL"
   },
   "notFound": {
     "title": "Страница не найдена",
@@ -32,10 +39,22 @@
     "backHome": "Вернуться на главную"
   },
   "theme": {
-    "light": "Светлая",
-    "dark": "Темная"
+    "light": "Светлая тема",
+    "dark": "Темная тема"
   },
   "download": {
     "csv": "Скачать CSV"
+  },
+  "flyout": {
+    "selected_one": "выбрана",
+    "selected_many": "выбрано",
+    "unselectAll": "Отменить выбор",
+    "planet": "планета",
+    "planets_2": "планеты",
+    "planets_5": "планет"
+  },
+  "actions": {
+    "throwError": "Вызвать ошибку!",
+    "refresh": "Обновить"
   }
 }

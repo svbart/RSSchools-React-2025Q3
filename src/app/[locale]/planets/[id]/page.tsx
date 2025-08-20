@@ -4,9 +4,10 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-// This is a Server Component - it renders on the server
+// Server Component
 export default async function PlanetDetails({ params }: Props) {
   const { id } = await params;
+  const planetId = parseInt(id, 10);
 
-  return <ItemDetailsCard planetId={parseInt(id, 10)} />;
+  return <ItemDetailsCard planetId={planetId} />;
 }

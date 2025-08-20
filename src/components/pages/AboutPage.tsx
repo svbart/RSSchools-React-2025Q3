@@ -1,5 +1,3 @@
-'use client';
-
 import { useTranslations } from 'next-intl';
 import classes from './AboutPage.module.scss';
 
@@ -10,13 +8,13 @@ const AboutPage = () => {
     <div className={classes.about}>
       <h2 className={classes.name}>{t('title')}</h2>
       <p>{t('description')}</p>
-      <p>Author: Svetlana Bartkevich</p>
+      <p>{t('author')}</p>
       <a
         href="https://rs.school/courses/reactjs"
         target="_blank"
         rel="noopener noreferrer"
       >
-        RSSCHOOL REACT COURSE
+        {t('course')}
       </a>
     </div>
   );

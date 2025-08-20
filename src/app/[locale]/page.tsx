@@ -1,14 +1,16 @@
-import { getTranslations } from 'next-intl/server';
-import PlanetsSearch from '../../containers/planetsSearch/PlanetsSearch';
+import PlanetsSearch from '../../components/planetsSearch/PlanetsSearch';
+import PageTitle from '../../components/pageTitle/PageTitle';
 import { fetchPlanets } from '../lib/planetsApi';
 
-// This is a Server Component - it renders on the server with RSC
+// Отключаем кеширование страницы для корректной работы интернационализации
+export const dynamic = 'force-dynamic';
+
+// Server Component
 export default async function HomePage({
   searchParams,
 }: {
   searchParams: Promise<{ page?: string; search?: string }>;
 }) {
-  const t = await getTranslations('search');
   const resolvedSearchParams = await searchParams;
   const page = Number(resolvedSearchParams.page) || 1;
   const search = resolvedSearchParams.search || '';
@@ -18,7 +20,7 @@ export default async function HomePage({
 
   return (
     <>
-      <h1 style={{ textAlign: 'center', margin: '20px 0' }}>{t('title')}</h1>
+      <PageTitle />
       <PlanetsSearch
         initialData={planetsData}
         initialPage={page}

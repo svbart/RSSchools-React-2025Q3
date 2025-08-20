@@ -4,6 +4,9 @@ import { routing } from '../../i18n/routing';
 import { ReactNode } from 'react';
 import ClientProviders from '../components/ClientProviders/ClientProviders';
 
+// Отключаем кеширование для корректной работы интернационализации
+export const dynamic = 'force-dynamic';
+
 type Props = {
   children: ReactNode;
   params: Promise<{ locale: string }>;
@@ -17,14 +20,12 @@ export default async function LocaleLayout({ children, params }: Props) {
     notFound();
   }
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
     <html lang={locale}>
       <body>
-        <ClientProviders messages={messages} locale={locale}>
+        <ClientProviders key={locale} messages={messages} locale={locale}>
           {children}
         </ClientProviders>
       </body>

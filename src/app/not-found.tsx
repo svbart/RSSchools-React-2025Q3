@@ -1,5 +1,5 @@
 import { NextIntlClientProvider } from 'next-intl';
-import NotFoundPage from '../pages/notFoundPage/NotFoundPage';
+import NotFoundPage from '../components/pages/NotFoundPage';
 
 // Import default English messages for global 404
 async function getMessages() {

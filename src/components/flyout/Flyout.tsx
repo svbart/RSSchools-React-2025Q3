@@ -1,10 +1,13 @@
+import { useTranslations, useLocale } from 'next-intl';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { deleteAllSelectedItems } from '../../store/storeSlices/app-reducer';
-import { getNumberOfSelectedItems } from '../../common/utils/utils';
+import { getPlanetCountText } from '../../common/utils/utils';
 import DownloadBtn from '../downloadSelectedItems/DownloadBtn';
 import classes from './Flyout.module.scss';
 
 const Flyout = () => {
+  const t = useTranslations('flyout');
+  const locale = useLocale();
   const { selectedItems } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
 
@@ -16,10 +19,12 @@ const Flyout = () => {
     return (
       <div className={classes.flyout} data-theme-element="true">
         <p className={classes.flyoutText}>
-          {`${getNumberOfSelectedItems(selectedItems.length)} selected`}
+          {locale === 'ru'
+            ? `${getPlanetCountText(selectedItems.length, locale)} ${selectedItems.length === 1 ? t('selected_one') : t('selected_many')}`
+            : `${getPlanetCountText(selectedItems.length, locale)} ${t('selected')}`}
         </p>
         <button onClick={handleUnselectAll} className={classes.unselectBtn}>
-          Unselect all
+          {t('unselectAll')}
         </button>
         <DownloadBtn />
       </div>

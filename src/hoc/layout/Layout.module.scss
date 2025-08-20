@@ -6,7 +6,9 @@
   flex-direction: column;
   background-color: var(--bg-color, rgb(18, 18, 22));
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 
   .Main {
     height: 100%;

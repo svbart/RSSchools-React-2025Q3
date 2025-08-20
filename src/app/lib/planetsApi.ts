@@ -27,7 +27,6 @@ export async function fetchPlanets(
     });
 
     if (!response.ok) {
-      // Если страница не найдена (404), возвращаем пустые результаты
       if (response.status === 404) {
         console.log(
           `No results found for page ${pageNumber} with search "${searchValue}"`
@@ -52,7 +51,6 @@ export async function fetchPlanets(
     };
   } catch (error) {
     console.error('Error fetching planets:', error);
-    // В случае ошибки сети, возвращаем пустые результаты вместо бросания ошибки
     return {
       count: 0,
       next: null,

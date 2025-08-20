@@ -1,6 +1,5 @@
-import NotFoundPage from '../../pages/notFoundPage/NotFoundPage';
+import NotFoundPage from '../../components/pages/NotFoundPage';
 
-// This is called for any routes that don't match
 export default function NotFound() {
   return <NotFoundPage />;
 }

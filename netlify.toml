@@ -1,0 +1,21 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NEXT_PRIVATE_TARGET = "server"
+
+# Для поддержки API routes
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/nextjs/:splat"
+  status = 200
+
+# Для поддержки динамических маршрутов
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

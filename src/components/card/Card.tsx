@@ -1,6 +1,7 @@
 'use client';
 
 import { MouseEvent, FC, SyntheticEvent } from 'react';
+import { useTranslations } from 'next-intl';
 import { PlanetCharacteristics } from '../../common/types/types';
 import { getIdFromUrl } from '../../common/utils/utils';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -13,6 +14,7 @@ interface CardProps {
 }
 
 const Card: FC<CardProps> = ({ planet, handlePlanetSelect }) => {
+  const t = useTranslations('planet');
   const id = getIdFromUrl(planet.url);
   const dispatch = useAppDispatch();
   const { selectedItems } = useAppSelector((state) => state.app);
@@ -49,15 +51,15 @@ const Card: FC<CardProps> = ({ planet, handlePlanetSelect }) => {
         </div>
         <div className={classes.planetDetails}>
           <div className={classes.detailRow}>
-            <span className={classes.detailLabel}>Orbital period:</span>
+            <span className={classes.detailLabel}>{t('orbitalPeriod')}:</span>
             <span className={classes.detailValue}>{planet.orbitalPeriod}</span>
           </div>
           <div className={classes.detailRow}>
-            <span className={classes.detailLabel}>Rotation period:</span>
+            <span className={classes.detailLabel}>{t('rotationPeriod')}:</span>
             <span className={classes.detailValue}>{planet.rotationPeriod}</span>
           </div>
           <div className={classes.detailRow}>
-            <span className={classes.detailLabel}>Surface Water:</span>
+            <span className={classes.detailLabel}>{t('surfaceWater')}:</span>
             <span className={classes.detailValue}>{planet.surfaceWater}</span>
           </div>
         </div>

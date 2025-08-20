@@ -11,7 +11,7 @@
 .pagination {
   width: 50%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end; /* Заменили end на flex-end */
   margin: 10px;
 }
 

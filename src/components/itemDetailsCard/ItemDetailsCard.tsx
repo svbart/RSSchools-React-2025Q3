@@ -1,119 +1,3 @@
-// import Spinner from '../../common/spinner/Spinner';
-// import { useParams } from 'react-router';
-// import CloseItemDetailsButton from '../closeItemDetailsButton/closeItemDetailsButton';
-// import {
-//   ExtendedFetchBaseQueryError,
-//   useGetPlanetByIdQuery,
-// } from '../../services/planetsApi';
-// import classes from './ItemDetailsCard.module.scss';
-
-// const ItemDetailsCard = () => {
-//   const id = useParams<{ id: string }>().id;
-//   const planetId = id ? Number(id) : 0;
-//   const { isLoading, isError, error, isFetching, data } =
-//     useGetPlanetByIdQuery(planetId);
-
-//   if (isLoading) {
-//     return <Spinner />;
-//   }
-//   if (isError) {
-//     return (
-//       <div role="alert" className={classes.errorMessage}>
-//         {(error as ExtendedFetchBaseQueryError).message} occurred while fetching
-//         data
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <>
-//       <div className={classes.details} data-theme-element="true">
-//         <div className={classes.detailsHeader} data-theme-element="true">
-//           Details <CloseItemDetailsButton />
-//         </div>
-//       </div>
-//       <div className={classes.detailsContent} data-theme-element="true">
-//         {isFetching && (
-//           <>
-//             <div className={classes.fetching}>Fetching...</div>
-//           </>
-//         )}
-//         {!isFetching && data ? (
-//           <>
-//             <div>Planet: {data.name}</div>
-//             <div>Population: {data.population}</div>
-//             <div>Terrain: {data.terrain}</div>
-//             <div>Climate: {data.climate}</div>
-//             <div>Gravity: {data.gravity}</div>
-//             <div>Diameter: {data.diameter}</div>
-//           </>
-//         ) : (
-//           <Spinner />
-//         )}
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ItemDetailsCard;
-// import Spinner from '../../common/spinner/Spinner';
-// import { useParams } from 'react-router';
-// import CloseItemDetailsButton from '../closeItemDetailsButton/closeItemDetailsButton';
-// import {
-//   ExtendedFetchBaseQueryError,
-//   useGetPlanetByIdQuery,
-// } from '../../services/planetsApi';
-// import classes from './ItemDetailsCard.module.scss';
-
-// const ItemDetailsCard = () => {
-//   const id = useParams<{ id: string }>().id;
-//   const planetId = id ? Number(id) : 0;
-//   const { isLoading, isError, error, isFetching, data } =
-//     useGetPlanetByIdQuery(planetId);
-
-//   if (isLoading) {
-//     return <Spinner />;
-//   }
-//   if (isError) {
-//     return (
-//       <div role="alert" className={classes.errorMessage}>
-//         {(error as ExtendedFetchBaseQueryError).message} occurred while fetching
-//         data
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <>
-//       <div className={classes.details} data-theme-element="true">
-//         <div className={classes.detailsHeader} data-theme-element="true">
-//           Details <CloseItemDetailsButton />
-//         </div>
-//       </div>
-//       <div className={classes.detailsContent} data-theme-element="true">
-//         {isFetching && (
-//           <>
-//             <div className={classes.fetching}>Fetching...</div>
-//           </>
-//         )}
-//         {!isFetching && data ? (
-//           <>
-//             <div>Planet: {data.name}</div>
-//             <div>Population: {data.population}</div>
-//             <div>Terrain: {data.terrain}</div>
-//             <div>Climate: {data.climate}</div>
-//             <div>Gravity: {data.gravity}</div>
-//             <div>Diameter: {data.diameter}</div>
-//           </>
-//         ) : (
-//           <Spinner />
-//         )}
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ItemDetailsCard;
 'use client';
 
 import { useTranslations } from 'next-intl';
@@ -125,25 +9,6 @@ import classes from './ItemDetailsCard.module.scss';
 
 interface ItemDetailsCardProps {
   planetId: number;
-}
-
-// Клиентская функция для получения данных о планете
-async function fetchPlanetData(
-  planetId: number
-): Promise<PlanetCharacteristics | null> {
-  try {
-    const response = await fetch(`/api/planets/${planetId}`);
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null;
-      }
-      throw new Error(`Failed to fetch planet: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching planet:', error);
-    throw error;
-  }
 }
 
 const ItemDetailsCard = ({ planetId }: ItemDetailsCardProps) => {
@@ -159,7 +24,19 @@ const ItemDetailsCard = ({ planetId }: ItemDetailsCardProps) => {
       try {
         setIsLoading(true);
         setError(null);
-        const planetData = await fetchPlanetData(planetId);
+
+        // Используем API route вместо прямого запроса к SWAPI
+        const response = await fetch(`/api/planets/${planetId}`);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            setData(null);
+            return;
+          }
+          throw new Error(`Failed to fetch planet: ${response.status}`);
+        }
+
+        const planetData = await response.json();
 
         if (!cancelled) {
           setData(planetData);
@@ -191,7 +68,7 @@ const ItemDetailsCard = ({ planetId }: ItemDetailsCardProps) => {
   if (error) {
     return (
       <div role="alert" className={classes.errorMessage}>
-        {error} occurred while fetching data
+        {error}
       </div>
     );
   }

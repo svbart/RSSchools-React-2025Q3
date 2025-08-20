@@ -1,10 +1,12 @@
 'use client';
 
 import { useContext } from 'react';
+import { useTranslations } from 'next-intl';
 import { ThemeContext } from '../../contexts/themeContext';
 import classes from './ThemeBtn.module.scss';
 
 const ThemeBtn = () => {
+  const t = useTranslations('theme');
   const themeContext = useContext(ThemeContext);
 
   if (!themeContext) {
@@ -19,7 +21,7 @@ const ThemeBtn = () => {
         onClick={toggleTheme}
         className={`${classes.themeButton} ${theme}`}
       >
-        {theme === 'dark' ? 'Light Theme' : 'Dark Theme'}
+        {theme === 'dark' ? t('light') : t('dark')}
       </button>
     </div>
   );
