@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
-import classes from './CloseItemDetailsButton.module.scss';
+import classes from './closeItemDetailsButton.module.scss';
 import {
   IShowDetailsContext,
   ShowDetailsContext,
