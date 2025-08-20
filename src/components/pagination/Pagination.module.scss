@@ -6,12 +6,12 @@
   align-items: center;
 }
 .flyout {
-  width: 50%;  
+  width: 50%;
 }
 .pagination {
   width: 50%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end; /* Заменили end на flex-end */
   margin: 10px;
 }
 

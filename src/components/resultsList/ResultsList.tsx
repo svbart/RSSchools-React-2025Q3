@@ -5,13 +5,10 @@ import { FC } from 'react';
 
 interface ResultsListProps {
   planets: PlanetCharacteristics[];
-  setSelectedPlanetId: React.Dispatch<React.SetStateAction<number | null>>;
+  handlePlanetSelect: (planetId: number) => void;
 }
 
-const ResultsList: FC<ResultsListProps> = ({
-  planets,
-  setSelectedPlanetId,
-}) => {
+const ResultsList: FC<ResultsListProps> = ({ planets, handlePlanetSelect }) => {
   return (
     <div className={classes.ResultsList}>
       {planets.length ? (
@@ -20,7 +17,7 @@ const ResultsList: FC<ResultsListProps> = ({
             <Card
               key={index}
               planet={planet}
-              setSelectedPlanetId={setSelectedPlanetId}
+              handlePlanetSelect={handlePlanetSelect}
             />
           );
         })

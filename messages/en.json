@@ -1,0 +1,58 @@
+{
+  "navigation": {
+    "home": "Home",
+    "search": "Search",
+    "about": "About",
+    "previous": "Previous",
+    "next": "Next",
+    "language": "Language"
+  },
+  "search": {
+    "title": "Star Wars Planets",
+    "placeholder": "Search planets...",
+    "searchButton": "Search",
+    "refresh": "Refresh",
+    "noResults": "No planets found",
+    "loading": "Loading...",
+    "error": "Error loading data"
+  },
+  "planet": {
+    "name": "Name",
+    "climate": "Climate",
+    "gravity": "Gravity",
+    "terrain": "Terrain",
+    "population": "Population",
+    "diameter": "Diameter",
+    "orbitalPeriod": "Orbital period",
+    "rotationPeriod": "Rotation period",
+    "surfaceWater": "Surface Water"
+  },
+  "about": {
+    "title": "About",
+    "description": "This application allows you to search for planets from the Star Wars universe.",
+    "author": "Author: Svetlana Bartkevich",
+    "course": "RSSCHOOL REACT COURSE"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist.",
+    "backHome": "Back to Home"
+  },
+  "theme": {
+    "light": "Light Theme",
+    "dark": "Dark Theme"
+  },
+  "download": {
+    "csv": "Download CSV"
+  },
+  "flyout": {
+    "selected": "selected",
+    "unselectAll": "Unselect all",
+    "planet": "planet",
+    "planets": "planets"
+  },
+  "actions": {
+    "throwError": "Throw Error!",
+    "refresh": "Refresh"
+  }
+}

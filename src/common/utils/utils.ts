@@ -44,6 +44,36 @@ export const getIdFromUrl = (url?: string) => {
   return Number(parts[parts.length - 1]);
 };
 
+// Функция для склонения русских слов
+export const getRussianPlanetForm = (count: number): string => {
+  const lastDigit = count % 10;
+  const lastTwoDigits = count % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+    return 'планет';
+  }
+
+  if (lastDigit === 1) {
+    return 'планета';
+  } else if (lastDigit >= 2 && lastDigit <= 4) {
+    return 'планеты';
+  } else {
+    return 'планет';
+  }
+};
+
+// Универсальная функция для формирования текста с количеством планет
+export const getPlanetCountText = (
+  count: number,
+  locale: string = 'en'
+): string => {
+  if (locale === 'ru') {
+    return `${count} ${getRussianPlanetForm(count)}`;
+  } else {
+    return count === 1 ? '1 planet' : `${count} planets`;
+  }
+};
+
 export const getNumberOfSelectedItems = (length: number) => {
   return length === 1 ? '1 planet' : `${length} planets`;
 };

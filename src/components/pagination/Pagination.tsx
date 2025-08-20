@@ -1,6 +1,9 @@
+'use client';
+
 import { SyntheticEvent } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import classes from './Pagination.module.scss';
-import { useSearchParams } from 'react-router';
 import Flyout from '../flyout/Flyout';
 
 interface PaginationProps {
@@ -8,22 +11,27 @@ interface PaginationProps {
 }
 
 const Pagination = ({ thereIsNext }: PaginationProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageNumber = Number(searchParams.get('page')) || 1;
-  const searchValue = searchParams.get('search') || '';
+  const t = useTranslations('navigation');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageNumber = Number(searchParams?.get('page')) || 1;
 
   const handleButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     const target = event.target as HTMLButtonElement;
     let newPage = pageNumber;
 
-    if (target.textContent === 'Previous') newPage = pageNumber - 1;
-    if (target.textContent === 'Next') newPage = pageNumber + 1;
+    if (target.textContent === t('previous')) {
+      newPage = pageNumber - 1;
+    }
+    if (target.textContent === t('next')) {
+      newPage = pageNumber + 1;
+    }
 
-    setSearchParams(
-      searchValue
-        ? { search: searchValue, page: String(newPage) }
-        : { page: String(newPage) }
-    );
+    // Next.js navigation
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set('page', String(newPage));
+
+    router.push(`?${params.toString()}`);
   };
 
   return (
@@ -37,7 +45,7 @@ const Pagination = ({ thereIsNext }: PaginationProps) => {
           onClick={handleButtonClick}
           disabled={pageNumber === 1}
         >
-          Previous
+          {t('previous')}
         </button>
         <span className={classes.pageNumber}>{pageNumber}</span>
         <button
@@ -45,7 +53,7 @@ const Pagination = ({ thereIsNext }: PaginationProps) => {
           onClick={handleButtonClick}
           disabled={!thereIsNext}
         >
-          Next
+          {t('next')}
         </button>
       </div>
     </div>

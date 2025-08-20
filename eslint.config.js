@@ -8,7 +8,18 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import reactCompiler from 'eslint-plugin-react-compiler';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  {
+    ignores: [
+      'dist',
+      'coverage',
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'public/**',
+      '*.config.js',
+      '*.config.ts',
+    ],
+  },
   {
     extends: [
       js.configs.recommended,
@@ -18,7 +29,10 @@ export default tseslint.config(
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
     plugins: {
       react,
