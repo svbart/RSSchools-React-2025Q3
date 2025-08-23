@@ -1,0 +1,17 @@
+.Layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(143, 205, 229);
+
+  .main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+  }
+}
