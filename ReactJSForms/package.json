@@ -17,6 +17,7 @@
     "test:ci:debug": "vitest run --reporter=verbose --coverage --watch --debug"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
     "@reduxjs/toolkit": "^2.8.2",
     "eslint-plugin-react-compiler": "^19.1.0-rc.2",
     "react": "^19.1.1",

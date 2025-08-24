@@ -7,7 +7,6 @@ import {
 import { z } from 'zod';
 import { formSchema } from '../../common/validationSchema';
 
-// type FormData = z.infer<typeof formSchema>;
 interface UncontrolledFormProps {
   onClose: () => void;
 }
@@ -31,10 +30,8 @@ const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
     e.preventDefault();
     setErrors(null);
     const formData = new FormData(e.currentTarget);
-    // Правильно извлекаем данные из FormData
     const pictureFile = formData.get('picture') as File | null;
 
-    // Конвертируем файл в base64
     let pictureBase64 = '';
     if (pictureFile && pictureFile.size > 0) {
       try {
@@ -46,21 +43,19 @@ const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
     }
     const data = {
       name: formData.get('name') as string,
-      age: formData.get('age') as string, // Оставляем как строку для Zod
+      age: formData.get('age') as string, // string for Zod
       email: formData.get('email') as string,
       password: formData.get('password') as string,
       confirmPassword: formData.get('confirmPassword') as string,
       gender: formData.get('gender') as string,
       country: formData.get('country') as string,
-      terms: formData.get('terms') === 'on' ? 'on' : '', // Правильная обработка checkbox
+      terms: formData.get('terms') === 'on' ? 'on' : '',
       picture: pictureFile && pictureFile.size > 0 ? pictureFile : undefined,
     };
 
-    console.log('Data before validation:', data); // Для отладки
     try {
-      // Валидация с помощью Zod
+      // validation with Zod
       const validatedData = formSchema.parse(data);
-      console.log('Validation successful:', validatedData); // Для отладки
 
       const entry: FormEntry = {
         id: Date.now().toString(),
@@ -79,34 +74,11 @@ const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
       onClose();
       formRef.current?.reset();
     } catch (error) {
-      console.log('Validation failed:', error); // Для отладки
       if (error instanceof z.ZodError) {
         setErrors(error);
         console.error('Validation errors:', error.issues);
       }
     }
-
-    // const pictureFile = formData.get('picture') as File | null;
-    // const pictureUrl = pictureFile
-    //   ? URL.createObjectURL(pictureFile)
-    //   : undefined;
-
-    // const entry: FormEntry = {
-    //   id: Date.now().toString(),
-    //   name: data.name as string,
-    //   age: Number(data.age),
-    //   password: data.password as string,
-    //   confirmPassword: data.confirmPassword as string,
-    //   email: data.email as string,
-    //   gender: data.gender as string,
-    //   country: data.country as string,
-    //   terms: Boolean(data.terms),
-    //   pictureBase64: ,
-    // };
-
-    // dispatch(addEntry(entry));
-    // onClose();
-    // formRef.current?.reset();
   };
 
   return (

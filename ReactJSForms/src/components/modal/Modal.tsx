@@ -33,7 +33,6 @@ const Modal: FC<ModalProps> = ({
         className={classes.modalContent}
         onClick={(e) => e.stopPropagation()}
       >
-        <span className="close-button">&times;</span>
         <h2>{title}</h2>
         {children}
       </div>
