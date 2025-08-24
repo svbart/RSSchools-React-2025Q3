@@ -35,7 +35,6 @@ const Modal: FC<ModalProps> = ({
       >
         <span className="close-button">&times;</span>
         <h2>{title}</h2>
-        <p>This is a modal window.</p>
         {children}
       </div>
     </div>,

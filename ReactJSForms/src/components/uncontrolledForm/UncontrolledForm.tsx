@@ -1,23 +1,137 @@
-import { type FormEvent } from 'react';
-import { useAppSelector } from '../../store/hooks';
+import { useRef, useState, type FormEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {
+  addEntry,
+  type FormEntry,
+} from '../../store/storeSlices/formDataReducer';
+import { z } from 'zod';
+import { formSchema } from '../../common/validationSchema';
 
+// type FormData = z.infer<typeof formSchema>;
 interface UncontrolledFormProps {
   onClose: () => void;
 }
 
 const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
   const countries = useAppSelector((state) => state.app.countries);
+  const dispatch = useAppDispatch();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [errors, setErrors] = useState<z.ZodError | null>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors(null);
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-    console.log('Uncontrolled Form:', data);
-    onClose();
+    // Правильно извлекаем данные из FormData
+    const pictureFile = formData.get('picture') as File | null;
+
+    // Конвертируем файл в base64
+    let pictureBase64 = '';
+    if (pictureFile && pictureFile.size > 0) {
+      try {
+        pictureBase64 = await fileToBase64(pictureFile);
+      } catch (error) {
+        console.error('Error converting file to base64:', error);
+        return;
+      }
+    }
+    const data = {
+      name: formData.get('name') as string,
+      age: formData.get('age') as string, // Оставляем как строку для Zod
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      confirmPassword: formData.get('confirmPassword') as string,
+      gender: formData.get('gender') as string,
+      country: formData.get('country') as string,
+      terms: formData.get('terms') === 'on' ? 'on' : '', // Правильная обработка checkbox
+      picture: pictureFile && pictureFile.size > 0 ? pictureFile : undefined,
+    };
+
+    console.log('Data before validation:', data); // Для отладки
+    try {
+      // Валидация с помощью Zod
+      const validatedData = formSchema.parse(data);
+      console.log('Validation successful:', validatedData); // Для отладки
+
+      const entry: FormEntry = {
+        id: Date.now().toString(),
+        name: validatedData.name,
+        age: validatedData.age,
+        password: validatedData.password,
+        confirmPassword: validatedData.confirmPassword,
+        email: validatedData.email,
+        gender: validatedData.gender,
+        country: validatedData.country,
+        terms: Boolean(validatedData.terms),
+        pictureBase64: pictureBase64,
+      };
+
+      dispatch(addEntry(entry));
+      onClose();
+      formRef.current?.reset();
+    } catch (error) {
+      console.log('Validation failed:', error); // Для отладки
+      if (error instanceof z.ZodError) {
+        setErrors(error);
+        console.error('Validation errors:', error.issues);
+      }
+    }
+
+    // const pictureFile = formData.get('picture') as File | null;
+    // const pictureUrl = pictureFile
+    //   ? URL.createObjectURL(pictureFile)
+    //   : undefined;
+
+    // const entry: FormEntry = {
+    //   id: Date.now().toString(),
+    //   name: data.name as string,
+    //   age: Number(data.age),
+    //   password: data.password as string,
+    //   confirmPassword: data.confirmPassword as string,
+    //   email: data.email as string,
+    //   gender: data.gender as string,
+    //   country: data.country as string,
+    //   terms: Boolean(data.terms),
+    //   pictureBase64: ,
+    // };
+
+    // dispatch(addEntry(entry));
+    // onClose();
+    // formRef.current?.reset();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} ref={formRef}>
+      {errors && (
+        <div
+          style={{
+            marginBottom: '16px',
+            padding: '12px',
+            backgroundColor: '#fee2e2',
+            border: '1px solid #fca5a5',
+            color: '#dc2626',
+            borderRadius: '4px',
+          }}
+        >
+          <h4>Validation Errors:</h4>
+          <ul style={{ margin: 0, paddingLeft: '20px' }}>
+            {errors.issues.map((issue, index) => (
+              <li key={index}>
+                <strong>{issue.path.join('.')}</strong>: {issue.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="mb-4">
         <label htmlFor="name" className="block text-sm font-medium">
           Name
@@ -58,26 +172,26 @@ const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium">
+        <label htmlFor="password" className="block text-sm font-medium">
           Password
         </label>
         <input
           id="password"
           name="password"
-          type="text"
+          type="password"
           required
           className="mt-1 p-2 w-full border rounded"
           aria-required="true"
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium">
+        <label htmlFor="confirm-password" className="block text-sm font-medium">
           Confirm Password
         </label>
         <input
           id="confirm-password"
-          name="confirm-password"
-          type="text"
+          name="confirmPassword"
+          type="password"
           required
           className="mt-1 p-2 w-full border rounded"
           aria-required="true"
