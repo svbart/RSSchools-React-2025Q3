@@ -1,0 +1,53 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.header {
+  margin-top: 15px;
+  color: rgb(2, 70, 148);
+}
+
+.tilesContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.tile {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &.highlighted {
+    border-color: #10b981;
+    background-color: #f0fdf4;
+  }
+}
+
+.tileTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.tileImage {
+  margin-top: 8px;
+  width: 100%;
+  height: 128px;
+  object-fit: cover;
+  border-radius: 4px;
+}
